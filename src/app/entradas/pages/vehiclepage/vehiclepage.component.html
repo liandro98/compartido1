@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registro de Vehículo</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@angular/material/prebuilt-themes/indigo-pink.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: Roboto, "Helvetica Neue", sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    .full-width {
+      width: 100%;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="color: black;">Registro de Vehículo</h1>
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Tipo de Vehículo</mat-label>
+            <mat-select formControlName="vehicleType" (selectionChange)="onVehicleTypeChange($event.value)">
+              <mat-option value="car">Auto</mat-option>
+              <mat-option value="motorcycle">Moto</mat-option>
+              <mat-option value="bicycle">Bicicleta</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <ng-container [ngSwitch]="selectedVehicleType">
+            <div *ngSwitchCase="'car'">
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Marca</mat-label>
+                <input matInput formControlName="brand">
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Modelo</mat-label>
+                <input matInput formControlName="model">
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Placa</mat-label>
+                <input matInput formControlName="licensePlate">
+              </mat-form-field>
+            </div>
+            <div *ngSwitchCase="'motorcycle'">
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Marca</mat-label>
+                <input matInput formControlName="brand">
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Modelo</mat-label>
+                <input matInput formControlName="model">
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Placa</mat-label>
+                <input matInput formControlName="licensePlate">
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Color</mat-label>
+                <input matInput formControlName="color">
+              </mat-form-field>
+            </div>
+            <div *ngSwitchCase="'bicycle'">
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Marca</mat-label>
+                <input matInput formControlName="brand">
+              </mat-form-field>
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Color</mat-label>
+                <input matInput formControlName="color">
+              </mat-form-field>
+            </div>
+          </ng-container>
+  
+          <div class="button-container">
+            <button mat-raised-button color="primary" type="submit">Registrar</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <script>
+    // Angular component initialization
+    angular.module('app', ['ngMaterial', 'ngMessages'])
+      .controller('VehicleFormController', ['$scope', function($scope) {
+        $scope.vehicleForm = {};
+        $scope.selectedVehicleType = '';
+
+        $scope.onVehicleTypeChange = function(vehicleType) {
+          $scope.selectedVehicleType = vehicleType;
+        };
+
+        $scope.onSubmit = function() {
+          // Logic to handle form submission
+          alert('Formulario enviado');
+        };
+      }]);
+  </script>
+</body>
+</html>
