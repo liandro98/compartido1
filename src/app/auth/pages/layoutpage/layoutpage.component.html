@@ -1,9 +1,4 @@
-<mat-toolbar color="primary" style="background-color: #4d8571;"> <!-- Set the background color of the toolbar -->
-  <mat-toolbar-row>
-    <span>Estacionamiento</span>
-    <span class="spacer"></span>
-    <button mat-raised-button style="background-color: aquamarine;" (click)="showLoginForm = !showLoginForm">Iniciar Sesión</button>
-  </mat-toolbar-row>
+<mat-toolbar color="primary" style="background-color: #4d8571;">
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -12,32 +7,6 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<div *ngIf="showLoginForm" class="login-form-overlay">
-  <div class="login-form-wrapper">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Iniciar Sesión</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <form>
-          <mat-form-field>
-            <mat-label>Usuario</mat-label>
-            <input matInput type="email">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Contraseña</mat-label>
-            <input matInput type="password">
-          </mat-form-field>
-          <a mat-button href="#">¿Olvidaste tu contraseña?</a>
-        </form>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button color="warn" (click)="showLoginForm = false">Cancelar</button>
-        <button mat-button color="primary" (click)="entrar()">Entrar</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-</div>
 
 <footer class="mat-elevation-z2" style="background-color: #365746; color: #fff; padding: 20px;">
   <div class="container">
@@ -48,33 +17,3 @@
     </div>
   </div>
 </footer>
-
-<style>
-  .login-form-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-  }
-
-  .login-form-wrapper {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-</style>
-
-<script>
-  function entrar() {
-    // Aquí puedes redirigir a otra página al presionar el botón "Entrar"
-    // Por ejemplo:
-    window.location.href = '/src/app/auth/pages/reportespage/reportespage.component.html';
-  }
-</script>

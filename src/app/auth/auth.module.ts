@@ -7,13 +7,19 @@ import { RegistropageComponent } from './pages/registropage/registropage.compone
 import { ReportespageComponent } from './pages/reportespage/reportespage.component';
 import { MaterialModule } from '../material/material.module';
 import { EntradasModule } from '../entradas/entradas.module';
+import { PasswordRecoverypageComponent } from './pages/password-recoverypage/password-recoverypage.component';
+import { CodeVerificationpageComponent } from './pages/code-verificationpage/code-verificationpage.component';
+import { ThankYoupageComponent } from './pages/thank-youpage/thank-youpage.component';
 
 
 @NgModule({
   declarations: [
     LayoutpageComponent,
     RegistropageComponent,
-    ReportespageComponent
+    ReportespageComponent,
+    PasswordRecoverypageComponent,
+    CodeVerificationpageComponent,
+    ThankYoupageComponent
   ],
   imports: [
     CommonModule,

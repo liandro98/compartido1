@@ -1,3 +1,90 @@
+<div class="overlay-container">
+  <button mat-raised-button class="overlay-button" style="background-color: aquamarine;" (click)="showLoginForm = !showLoginForm">
+    Iniciar Sesión
+  </button>
+</div>
+
+<div *ngIf="showLoginForm" class="login-form-overlay">
+  <div class="login-form-wrapper">
+    <div *ngIf="showLoginForm" class="login-form-overlay">
+      <div class="login-form-wrapper">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Iniciar Sesión</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form (ngSubmit)="onSubmit()">
+              <mat-form-field>
+                <mat-label>Usuario</mat-label>
+                <input matInput type="email" [(ngModel)]="email" name="email" required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Contraseña</mat-label>
+                <input matInput type="password" [(ngModel)]="password" name="password" required>
+              </mat-form-field>
+              <a class="spacer"></a>
+              <a type="submit" (click)="forgotPassword()">¿Olvidaste la contraseña?</a>
+            </form>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="warn" (click)="showLoginForm = false">Cancelar</button>
+            <button mat-button color="primary" type="submit" (click)="entrar()">Entrar</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+    
+    
+    <style>
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0; 
+      }
+    
+      .bienvenida {
+        text-align: center;
+        background-color: #679e6a; /* Color azul UTNG */
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    
+      .bienvenida h1 {
+        font-size: 3em;
+        margin-bottom: 0;
+      }
+    </style>
+    
+    
+    <style>
+      .login-form-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+      }
+    
+      .login-form-wrapper {
+        background-color: #fff;
+        width: 26vw;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </div>
+</div>
+
 <div class="container">
   <div class="bienvenida">
     <h1>¡Bienvenido al Estacionamiento UTNG!</h1>
@@ -5,6 +92,41 @@
 </div>
 
 <style>
+  .overlay-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 101; /* Coloca el botón por encima del contenido de la página anterior */
+  }
+
+  .overlay-button {
+    position: absolute;
+    top: 10px; /* Ajusta la posición vertical según sea necesario */
+    left: 3vw; /* Ajusta la posición horizontal según sea necesario */
+    z-index: 102; /* Asegura que el botón esté sobre el fondo */
+  }
+
+  .login-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+
+  .login-form-wrapper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
   .container {
     display: flex;
     justify-content: center;

@@ -12,7 +12,7 @@ export class LayoutpageComponent {
     {label:'Reporte',icon:'label', url:'./daily'},
     {label:'Añadir', icon:'add', url:'./veiculo'},
     {label:'New Usuario',icon:'add',url:"./registro"},
-    {label:'call',icon:'search',url: "/src/app/auth/pages/registropage/registropage.component.html"}
+    {label:'cerrar session',icon:'search',url: "/auth/"}
   ]
   
   openUserMenu() {

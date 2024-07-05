@@ -16,7 +16,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   exports: [
@@ -37,6 +38,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatToolbarModule,
     MatMenuModule, 
     ReactiveFormsModule,
+    FormsModule,
+    CommonModule
+
     
   ]
 })
