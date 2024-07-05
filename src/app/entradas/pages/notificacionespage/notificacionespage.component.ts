@@ -1,30 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+interface Notification {
+  title: string;
+  message: string;
+  date: Date;
+}
 @Component({
   selector: 'app-notificacionespage',
   templateUrl: './notificacionespage.component.html',
   styles: ``
 })
-export class NotificacionespageComponent {
-  notifForm: FormGroup;
+export class NotificacionespageComponent implements OnInit{
 
-  constructor(private fb: FormBuilder){
-    this.notifForm = this.fb.group({
-      title: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      reportType: ['', Validators.required],
-      description: ['', Validators.required],
-      priority: ['', Validators.required],
-      recipient: ['', Validators.required]
-    });
-  }
+    notifications: Notification[] = [];
   
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-
+    ngOnInit(): void {
+      // Simulación de notificaciones de reportes
+      this.notifications = [
+        { title: 'Reporte Diario', message: 'El reporte diario ha sido generado.', date: new Date() },
+        { title: 'Reporte Semanal', message: 'El reporte semanal está disponible.', date: new Date() },
+        { title: 'Error en Reporte', message: 'Hubo un error al generar el reporte mensual.', date: new Date() }
+      ];
+    }
 
 }
 

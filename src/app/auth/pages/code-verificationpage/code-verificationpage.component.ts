@@ -40,7 +40,6 @@ export class CodeVerificationpageComponent {
 
   onSubmit() {
     // Aquí iría la lógica para verificar el código
-    console.log('Código ingresado:', this.code);
     this.router.navigate(['/auth/thanku']);
   }
 }
