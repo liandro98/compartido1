@@ -5,6 +5,7 @@ import { ListpageComponent } from './pages/listpage/listpage.component';
 import { RegisterpageComponent } from './pages/registerpage/registerpage.component';
 import { VehiclepageComponent } from './pages/vehiclepage/vehiclepage.component';
 import { DailypageComponent } from './pages/dailypage/dailypage.component';
+import { NotificacionespageComponent } from './pages/notificacionespage/notificacionespage.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
     {path:'veiculo', component:VehiclepageComponent},
     {path:'daily', component:DailypageComponent},
     {path:'list', component:ListpageComponent},
+    {path:'noti',component:NotificacionespageComponent},
     {path:'**',redirectTo:'list'}
     ]
   }
