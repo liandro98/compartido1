@@ -1,30 +1,37 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Error404pageComponent } from './shared/pages/error404page/error404page.component';
+import { Error404PageComponent } from './shared/pages/error404-page/error404-page.component';
 
 const routes: Routes = [
   {
-    path: 'auth',
+    path: 'home',
     loadChildren:() => import('./auth/auth.module').then(m => m.AuthModule),
   },
   {
-    path: 'entradas',
-    loadChildren: () => import('./entradas/entradas.module').then(m=> m.EntradasModule)
+    path: 'register',
+    loadChildren: () => import('./heroes/heroes.module').then(m=> m.HeroesModule)
+  },
+  {
+    path:'material',
+    loadChildren: ()=> import('./material/material-routing.module').then(m=> m.MaterialRoutingModule)
+  },
+  {
+    path:'inicio',
+    loadChildren: ()=> import('./inicio/inicio-routing.module').then(m=> m.InicioRoutingModule)
   },
   {
     path: '404',
-    component: Error404pageComponent
+    component: Error404PageComponent
   },
   {
     path: '',
-    redirectTo: 'entradas',
+    redirectTo: 'home',
     pathMatch: 'full'
-
   },
   {
     path :'**',
     redirectTo:'404'
-  }
+  },
 
 ];
 
