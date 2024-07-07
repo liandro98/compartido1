@@ -19,19 +19,20 @@
   
       <span class="spacer"></span>
   
-      <button mat-icon-button (click)="openUserMenu()">
+      <button mat-icon-button  routerLink="./perfil" (click)="openUserMenu()">
         <mat-icon>account_circle</mat-icon>
       </button>
       <span>Usuario</span>
   
       <span class="spacer" style="flex: 1;"></span> 
   
-      <button mat-icon-button (click)="openHelp()">
+      <button mat-icon-button routerLink="./help" (click)="openHelp()">
         <mat-icon>help_outline</mat-icon>
       </button>
       <span>Ayuda</span>
-  
-      <button mat-icon-button (click)="openNotifications()">
+
+      <button mat-icon-button routerLink="noti">
+
         <mat-icon>notifications</mat-icon>
       </button>
       <span>Notificaciones</span>

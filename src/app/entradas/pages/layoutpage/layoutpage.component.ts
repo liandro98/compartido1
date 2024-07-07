@@ -8,11 +8,11 @@ import { Component } from '@angular/core';
 export class LayoutpageComponent {
 
   public sidebarItems = [
-    {label:'Listado', icon:'label',url:'./list'},
-    {label:'Reporte',icon:'label', url:'./daily'},
-    {label:'Añadir', icon:'add', url:'./veiculo'},
-    {label:'New Usuario',icon:'add',url:"./registro"},
-    {label:'cerrar session',icon:'search',url: "/auth/"}
+    {label:'Listado', icon:'list',url:'./list'},
+    {label:'Reporte',icon:'flag', url:'./daily'},
+    {label:'Añadir', icon:'directions_car', url:'./veiculo'},
+    {label:'New Usuario',icon:'person_add',url:"./registro"},
+    {label:'cerrar session',icon:'logout',url: "/auth/"}
   ]
   
   openUserMenu() {

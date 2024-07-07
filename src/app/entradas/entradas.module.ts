@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NotificacionespageComponent } from './pages/notificacionespage/notificacionespage.component';
+import { HelpComponent } from './pages/help/help.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 
 @NgModule({
@@ -22,6 +24,9 @@ import { NotificacionespageComponent } from './pages/notificacionespage/notifica
     ListpageComponent,
     RegisterpageComponent,
     VehiclepageComponent,
+    NotificacionespageComponent,
+    HelpComponent,
+    ProfileComponent,
     NotificacionespageComponent
   ],
   imports: [

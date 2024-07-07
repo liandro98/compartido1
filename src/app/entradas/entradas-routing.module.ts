@@ -6,6 +6,9 @@ import { RegisterpageComponent } from './pages/registerpage/registerpage.compone
 import { VehiclepageComponent } from './pages/vehiclepage/vehiclepage.component';
 import { DailypageComponent } from './pages/dailypage/dailypage.component';
 import { NotificacionespageComponent } from './pages/notificacionespage/notificacionespage.component';
+import { HelpComponent } from './pages/help/help.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { PasswordRecoverypageComponent } from '../auth/pages/password-recoverypage/password-recoverypage.component';
 
 const routes: Routes = [
   {
@@ -17,7 +20,10 @@ const routes: Routes = [
     {path:'daily', component:DailypageComponent},
     {path:'list', component:ListpageComponent},
     {path:'noti',component:NotificacionespageComponent},
-    {path:'**',redirectTo:'list'}
+    {path:'help', component:HelpComponent},
+    {path:'recovery', component:PasswordRecoverypageComponent},
+    {path: 'perfil', component:ProfileComponent },
+    {path:'**',redirectTo:'list'},
     ]
   }
 ];
