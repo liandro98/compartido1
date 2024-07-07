@@ -1,0 +1,42 @@
+body{
+    margin: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.container{
+    margin: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.elements{
+    display: flex;
+    gap: 20px;
+    margin:30px;
+}
+
+.card-into{
+    padding: 10px;
+    border-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.span-label{
+    height: max-content;
+}
+
+.data{
+    display:flex; 
+    flex-direction: row; 
+    gap: 10px;
+    border-radius: 5px;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 100%;
+}

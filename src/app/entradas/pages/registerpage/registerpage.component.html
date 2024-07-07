@@ -1,0 +1,72 @@
+<div class="container">
+  <h1 style="color: black;">Registro de Usuario</h1>
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Tipo de Usuario</mat-label>
+          <mat-select formControlName="userType" (selectionChange)="onUserTypeChange()">
+            <mat-option value="student">Alumno</mat-option>
+            <mat-option value="teacher">Profesor</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <ng-container [ngSwitch]="vehicleForm.value.userType">
+          <div *ngSwitchCase="'student'">
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Número de Control</mat-label>
+              <input matInput formControlName="controlNumber">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Carrera</mat-label>
+              <mat-select formControlName="career" (selectionChange)="onCareerChange()">
+                <mat-option value="administracion">Administración</mat-option>
+                <mat-option value="turismo">Turismo</mat-option>
+                <mat-option value="entornos">Entornos</mat-option>
+                <mat-option value="software">Desarrollo de Software</mat-option>
+                <mat-option value="diseno">Diseño</mat-option>
+                <mat-option value="mecatronica">Mecatrónica</mat-option>
+                <mat-option value="procesos">Procesos</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Grupo</mat-label>
+              <mat-select formControlName="group">
+                <mat-option *ngFor="let group of careerGroups[selectedCareer]" [value]="group">
+                  {{ group }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngSwitchCase="'teacher'">
+            <!-- Puedes agregar campos específicos para profesor aquí -->
+          </div>
+        </ng-container>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Correo Electrónico</mat-label>
+          <input matInput type="email" formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nombre Completo</mat-label>
+          <input matInput formControlName="fullName">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Fecha de Nacimiento</mat-label>
+          <input matInput type="date" formControlName="birthDate">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Código de Barras</mat-label>
+          <input matInput formControlName="barcode">
+        </mat-form-field>
+
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">Registrar</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
