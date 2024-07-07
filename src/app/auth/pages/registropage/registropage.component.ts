@@ -4,9 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-registropage',
   templateUrl: './registropage.component.html',
-  styles: `
-  `
-})
+  styles: ``
 export class RegistropageComponent {
 
   showLoginForm = false; 

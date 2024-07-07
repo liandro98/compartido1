@@ -22,7 +22,6 @@ export class LayoutpageComponent {
 
   openHelp() {
     // Implement your help logic here
-
     console.log("Help icon clicked");
   }
 

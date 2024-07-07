@@ -27,6 +27,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
     NotificacionespageComponent,
     HelpComponent,
     ProfileComponent,
+    NotificacionespageComponent
   ],
   imports: [
     CommonModule,
