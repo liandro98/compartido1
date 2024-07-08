@@ -6,13 +6,9 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class LayoutpageComponent {
-
   public sidebarItems = [
-    {label:'Listado', icon:'list',url:'./list'},
-    {label:'Reporte',icon:'flag', url:'./daily'},
-    {label:'Registro Proveedor',icon:'add',url: "/entradas/proveedor"},
-    {label:'Añadir', icon:'directions_car', url:'./veiculo'},
-    {label:'New Usuario',icon:'person_add',url:"./registro"},
+    {label:'registro', icon:'add',url:'./registro'},
+    {label:'permisos', icon:'list',url:'./permisos'},
     {label:'cerrar session',icon:'logout',url: "/auth/"}
   ]
   
@@ -30,4 +26,5 @@ export class LayoutpageComponent {
     // Implement your notifications logic here
     console.log("Notifications icon clicked");
   }
+  
 }

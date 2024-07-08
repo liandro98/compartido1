@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-dailypage',
@@ -32,29 +32,68 @@ import { Component } from '@angular/core';
 
   `
 })
-export class DailypageComponent {
+export class DailypageComponent implements OnInit {
+  fecha: string = '';
+  totalVehiculos: number = 0;
+  ingresosTotales: number = 0;
+  tiempoPromedio: number = 0;
+  eventosImportantes: string = '';
+  observaciones: string = '';
 
-  fecha: Date;
-  totalVehiculos: number;
-  ingresosTotales: number;
-  observaciones: string;
+  ngOnInit() {
+    this.generarDatosReporte();
+  }
 
-  constructor() {
-    // Inicialización de variables si es necesario
-    this.fecha = new Date(); // Puedes inicializar la fecha con la fecha actual
-    this.totalVehiculos = 0;
-    this.ingresosTotales = 0;
-    this.observaciones = '';
+  generarDatosReporte() {
+    const hoy = new Date();
+    this.fecha = hoy.toISOString().substring(0, 10);
+    this.totalVehiculos = Math.floor(Math.random() * 10); // Ejemplo de generación automática
+    this.ingresosTotales = this.totalVehiculos * 10; // Ejemplo de cálculo de ingresos
+    this.tiempoPromedio = Math.floor(Math.random() * 12); // Ejemplo de generación automática
+    this.eventosImportantes = 'Ningún evento importante'; // Ejemplo de texto predeterminado
+    this.observaciones = 'Sin observaciones'; // Ejemplo de texto predeterminado
   }
 
   generarReporte() {
-    // Aquí puedes implementar la lógica para generar el reporte
-    console.log('Fecha:', this.fecha);
-    console.log('Total de Vehículos Estacionados:', this.totalVehiculos);
-    console.log('Ingresos Totales:', this.ingresosTotales);
-    console.log('Observaciones:', this.observaciones);
+    const reporte = {
+      fecha: this.fecha,
+      totalVehiculos: this.totalVehiculos,
+      ingresosTotales: this.ingresosTotales,
+      tiempoPromedio: this.tiempoPromedio,
+      eventosImportantes: this.eventosImportantes,
+      observaciones: this.observaciones
+    };
 
-    // Puedes agregar aquí la lógica para enviar el reporte al backend, etc.
-    // Por ahora, solo muestra los datos en la consola
+    console.log('Reporte generado:', reporte);
+    alert('Reporte generado exitosamente');
+  }
+
+  exportarPDF() {
+    window.print();
+  }
+
+  exportarExcel() {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Reporte Diario',
+      useBom: true,
+      noDownload: false,
+      headers: ["Fecha", "Total de Vehículos Estacionados", "Ingresos Totales", "Tiempo Promedio de Estacionamiento", "Eventos Importantes", "Observaciones"]
+    };
+    
+    const data = [
+      {
+        Fecha: this.fecha,
+        "Total de Vehículos Estacionados": this.totalVehiculos,
+        "Ingresos Totales": this.ingresosTotales,
+        "Tiempo Promedio de Estacionamiento": this.tiempoPromedio,
+        "Eventos Importantes": this.eventosImportantes,
+        Observaciones: this.observaciones
+      }
+    ];
   }
 }

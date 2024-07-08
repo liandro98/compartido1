@@ -44,36 +44,36 @@ mat-form-field {
 export class VehiclepageComponent implements OnInit {
 
   vehicleForm: FormGroup;
-  selectedVehicleType: string = 'car';
+  selectedVehicleType: string = '';
 
   constructor(private fb: FormBuilder) {
     this.vehicleForm = this.fb.group({
-      vehicleType: ['car'],
+      vehicleType: [''],
       brand: [''],
       model: [''],
       licensePlate: [''],
-      color: ['']
+      color: [''],
+      description: [''],
+      email: [''],
+      fullName: [''],
+      barcode: ['']
     });
   }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
-  ngOnInit(): void {}
-
-  onVehicleTypeChange(vehicleType: string): void {
+  onVehicleTypeChange(vehicleType: string) {
     this.selectedVehicleType = vehicleType;
-    this.resetFormFields();
   }
 
-  resetFormFields(): void {
-    this.vehicleForm.patchValue({
-      brand: '',
-      model: '',
-      licensePlate: '',
-      color: ''
-    });
+  onSubmit() {
+    alert('Registrado exitosamente');
+    this.vehicleForm.reset();
+    this.selectedVehicleType = '';
   }
 
-  onSubmit(): void {
-    console.log(this.vehicleForm.value);
-  }
+
+
 
 }

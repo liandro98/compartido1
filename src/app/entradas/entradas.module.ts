@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NotificacionespageComponent } from './pages/notificacionespage/notificacionespage.component';
 import { HelpComponent } from './pages/help/help.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { RegistroProveedorpageComponent } from './pages/registro-proveedorpage/registro-proveedorpage.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     NotificacionespageComponent,
     HelpComponent,
     ProfileComponent,
-    NotificacionespageComponent
+    NotificacionespageComponent,
+    RegistroProveedorpageComponent
   ],
   imports: [
     CommonModule,

@@ -20,9 +20,9 @@ export class NotificacionespageComponent implements OnInit{
     ngOnInit(): void {
       // Simulación de notificaciones de reportes
       this.notifications = [
-        { title: 'Reporte Diario', message: 'El reporte diario ha sido generado.', date: new Date() },
-        { title: 'Reporte Semanal', message: 'El reporte semanal está disponible.', date: new Date() },
-        { title: 'Error en Reporte', message: 'Hubo un error al generar el reporte mensual.', date: new Date() }
+        { title: 'Reporte Usuario', message: 'Daños en mi coche .', date: new Date() },
+        { title: 'Reporte Profesor', message: 'Daños en mi motocicleta.', date: new Date() },
+        { title: 'Reporte Usuario', message: 'Robo de un casco.', date: new Date() }
       ];
     }
 }

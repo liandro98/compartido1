@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reportespage',
@@ -54,7 +55,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class ReportespageComponent {
   notifForm: FormGroup;
 
-  constructor(private fb: FormBuilder){
+  constructor(private fb: FormBuilder, private router: Router){
     this.notifForm = this.fb.group({
       title: ['', Validators.required],
       startDate: ['', Validators.required],
@@ -65,8 +66,10 @@ export class ReportespageComponent {
       recipient: ['', Validators.required]
     });
   }
-  
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+
+
+  goHome() {
+    this.router.navigate(['/auth/registro']);
   }
-})
+  
+}
