@@ -1,0 +1,48 @@
+<!-- registropage.component.html -->
+
+<div class="container">
+    <h1 style="color: black;">Registro de Trabajador</h1>
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="workerForm" (ngSubmit)="onSubmit()">
+  
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Clave del Trabajador</mat-label>
+            <input matInput formControlName="employeeId">
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Nombre Completo</mat-label>
+            <input matInput formControlName="fullName">
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Correo Electrónico</mat-label>
+            <input matInput type="email" formControlName="email">
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Fecha de Nacimiento</mat-label>
+            <input matInput type="date" formControlName="birthDate">
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Departamento</mat-label>
+            <input matInput formControlName="department">
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Puesto</mat-label>
+            <input matInput formControlName="position">
+          </mat-form-field>
+  
+        
+  
+          <div class="button-container">
+            <button mat-raised-button color="primary" type="submit">Registrar</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

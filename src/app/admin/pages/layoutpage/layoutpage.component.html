@@ -1,0 +1,40 @@
+<mat-sidenav-container fullscreen style="background-color: #f0f0f0;"> <!-- Set the background color to white or any desired color -->
+    <mat-sidenav #sidenav mode="side" [ngStyle]="{width: '250px'}" style="background-color: #52866f; border-radius: 0;"> <!-- Set the background color of the sidenav and remove border-radius -->
+      <mat-toolbar color="primary" style="background-color: #4d8571;"> <!-- Set the background color of the toolbar -->
+        <span>Menú</span>
+      </mat-toolbar>
+  
+      <mat-nav-list>
+        <mat-list-item *ngFor="let item of sidebarItems" [routerLink]="item.url" (click)="sidenav.toggle()">
+          <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+          {{item.label}}
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-toolbar color="primary" style="background-color: #4d7f65;"> <!-- Set the background color of the toolbar -->
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+  
+      <span class="spacer"></span>
+  
+      <button mat-icon-button  routerLink="./perfil" (click)="openUserMenu()">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <span>Usuario</span>
+  
+      <span class="spacer" style="flex: 1;"></span> 
+  
+
+      <button mat-icon-button routerLink="/entradas/noti">
+
+        <mat-icon>notifications</mat-icon>
+      </button>
+      <span>Notificaciones</span>
+    </mat-toolbar>
+  
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-container>

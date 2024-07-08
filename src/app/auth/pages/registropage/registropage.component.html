@@ -6,87 +6,35 @@
 
 <div *ngIf="showLoginForm" class="login-form-overlay">
   <div class="login-form-wrapper">
-    <div *ngIf="showLoginForm" class="login-form-overlay">
-      <div class="login-form-wrapper">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Iniciar Sesión</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <form (ngSubmit)="onSubmit()">
-              <mat-form-field>
-                <mat-label>Usuario</mat-label>
-                <input matInput type="email" [(ngModel)]="email" name="email" required>
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Contraseña</mat-label>
-                <input matInput type="password" [(ngModel)]="password" name="password" required>
-              </mat-form-field>
-              <a class="spacer"></a>
-              <a type="submit" (click)="forgotPassword()">¿Olvidaste la contraseña?</a>
-            </form>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button color="warn" (click)="showLoginForm = false">Cancelar</button>
-            <button mat-button color="primary" type="submit" (click)="entrar()">Entrar</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </div>
-    
-    <style>
-      .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f0f0f0; 
-      }
-    
-      .bienvenida {
-        text-align: center;
-        background-color: #679e6a; /* Color azul UTNG */
-        color: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-    
-      .bienvenida h1 {
-        font-size: 3em;
-        margin-bottom: 0;
-      }
-    </style>
-    
-    
-    <style>
-      .login-form-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 100;
-      }
-    
-      .login-form-wrapper {
-        background-color: #fff;
-        width: 26vw;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      }
-    </style>
+    <mat-card style="width: 400px;">
+      <mat-card-header>
+        <mat-card-title>Iniciar Sesión</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form (ngSubmit)="onSubmit()">
+          <mat-form-field style="width: 100%;">
+            <mat-label>Correo</mat-label>
+            <input matInput type="email" [(ngModel)]="email" name="email" required>
+          </mat-form-field>
+          <mat-form-field style="width: 100%;">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" [(ngModel)]="password" name="password" required>
+          </mat-form-field>
+          <a class="spacer"></a>
+          <a type="submit" (click)="forgotPassword()" style="display: block; text-align: right; color: #666;">¿Olvidaste la contraseña?</a>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="warn" (click)="showLoginForm = false">Cancelar</button>
+        <button mat-button color="primary" type="submit" (click)="entrar()">Entrar</button>
+      </mat-card-actions>
+    </mat-card>
   </div>
 </div>
 
 <div class="container">
   <div class="bienvenida">
-    <h1>¡Bienvenido al Estacionamiento UTNG!</h1>
+    <h1 style="font-family: 'Aestetik', sans-serif; font-style: italic; font-weight: bold; font-size: 4em; color: #ffffff; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">¡Bienvenido al Estacionamiento UTNG!</h1>
   </div>
 </div>
 
@@ -96,14 +44,14 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 101; /* Coloca el botón por encima del contenido de la página anterior */
+    z-index: 101;
   }
 
   .overlay-button {
     position: absolute;
-    top: 10px; /* Ajusta la posición vertical según sea necesario */
-    left: 3vw; /* Ajusta la posición horizontal según sea necesario */
-    z-index: 102; /* Asegura que el botón esté sobre el fondo */
+    top: 10px;
+    left: 3vw;
+    z-index: 102;
   }
 
   .login-form-overlay {
@@ -117,13 +65,14 @@
     justify-content: center;
     align-items: center;
     z-index: 100;
+    backdrop-filter: blur(5px); /* Agrega el efecto de blur al fondo */
   }
 
   .login-form-wrapper {
     background-color: #fff;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   .container {
@@ -131,26 +80,19 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0; 
   }
 
   .bienvenida {
     text-align: center;
-    background-color: #679e6a; /* Color azul UTNG */
-    color: white;
-    padding: 30px;
-    border-radius: 10px;
+    background: url("https://p16-flow-sign-va.ciciai.com/ocean-cloud-tos-us/text2img/301cc93a10b12532d21262067525ab99_1720389168227440990.png~tplv-6bxrjdptv7-image-qvalue.png?rk3s=6823e3d0&x-expires=1751925168&x-signature=p2d%2BVzItAJVj2zviFvX8kW%2FLR1Q%3D") no-repeat center center fixed;
+    background-size: cover;
+    padding: 30vw;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .bienvenida h1 {
-    font-size: 3em;
-    margin-bottom: 0;
-  }
-
-  body{
-    background-image:url("https://cdn.pixabay.com/photo/2015/06/29/09/22/parking-825371_1280.jpg");
-    background-size:cover;
+  body {
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
   }
 </style>
-

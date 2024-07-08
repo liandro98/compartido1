@@ -9,6 +9,7 @@ import { NotificacionespageComponent } from './pages/notificacionespage/notifica
 import { HelpComponent } from './pages/help/help.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { PasswordRecoverypageComponent } from '../auth/pages/password-recoverypage/password-recoverypage.component';
+import { RegistroProveedorpageComponent } from './pages/registro-proveedorpage/registro-proveedorpage.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     {path:'list', component:ListpageComponent},
     {path:'noti',component:NotificacionespageComponent},
     {path:'help', component:HelpComponent},
+    {path:'proveedor', component:RegistroProveedorpageComponent},
     {path:'recovery', component:PasswordRecoverypageComponent},
     {path: 'perfil', component:ProfileComponent },
     {path:'**',redirectTo:'list'},
