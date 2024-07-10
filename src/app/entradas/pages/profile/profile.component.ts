@@ -19,6 +19,6 @@ export class ProfileComponent {
   constructor(private router: Router) {}
 
   navigateToRecovery() {
-    this.router.navigate(['entradas/recovery']);
+    this.router.navigate(['admin/changeP']);
   }
 }

@@ -9,6 +9,7 @@ export class LayoutpageComponent {
   public sidebarItems = [
     {label:'registro', icon:'add',url:'./registro'},
     {label:'permisos', icon:'list',url:'./permisos'},
+    {label:'roles',icon:'list', url:'./roles'},
     {label:'cerrar session',icon:'logout',url: "/auth/"}
   ]
   

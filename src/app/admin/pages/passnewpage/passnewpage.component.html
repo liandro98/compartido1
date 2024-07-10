@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="header">
+      <h2>Cambio de contraseña</h2>
+      <!-- Aquí podrías mostrar información del usuario, como su nombre, correo, etc. -->
+      <p>{{ usuario.nombre }}</p>
+      <p>{{ usuario.correo }}</p>
+    </div>
+  
+    <form class="form" [formGroup]="changePasswordForm" (ngSubmit)="changePassword()">
+      <mat-form-field>
+        <input matInput type="password" formControlName="currentPassword" placeholder="Contraseña actual">
+      </mat-form-field>
+    
+      <mat-form-field>
+        <input matInput type="password" formControlName="newPassword" placeholder="Nueva contraseña">
+      </mat-form-field>
+    
+      <mat-form-field>
+        <input matInput type="password" formControlName="confirmPassword" placeholder="Confirmar nueva contraseña">
+      </mat-form-field>
+    
+      <button mat-raised-button color="primary" type="submit" [disabled]="changePasswordForm.invalid" (click)="onSubmit()">Cambiar contraseña</button>
+    </form>
+  </div>
+<style>
+    .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Esto centra el contenido verticalmente en la pantalla */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form {
+  width: 300px; /* Ajusta el ancho del formulario según tus necesidades */
+}
+
+</style>  
