@@ -1,0 +1,16 @@
+<div class="container">
+    <h2>Iniciar sesión</h2>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <mat-form-field>
+        <input matInput formControlName="correo" placeholder="Correo electrónico">
+      </mat-form-field>
+      
+      <mat-form-field>
+        <input matInput type="password" formControlName="contrasena" placeholder="Contraseña">
+      </mat-form-field>
+      
+      <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Iniciar sesión</button>
+    </form>
+  </div>
+  

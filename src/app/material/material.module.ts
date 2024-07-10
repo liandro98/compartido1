@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   exports: [
@@ -51,7 +52,9 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatTableModule
+    MatTableModule,
+    MatDividerModule
+    
 
 
     

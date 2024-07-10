@@ -1,0 +1,40 @@
+<body>
+    <div class="container">
+        <mat-card style="background-color: #4d8575; width: 95%;">
+            <mat-card-header style="display: flex; flex-direction: column; align-items: center;">
+                <h1>Perfil</h1>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-card class="card-into">
+                    <img width="20%" [src]="persona.image" alt="">
+                    <div>
+                        <h1>{{persona.name}}</h1>
+                        <br/>
+                    </div>
+                    <div>
+                        <div class="data">
+                            <span class="span-label">Email: </span><label>{{persona.correo}}</label>
+                        </div>
+                        <br>
+                        <div class="data">
+                            <span class="span-label">Telefono: </span><label>{{persona.telefono}}</label>
+                            <br>
+                        </div>
+                        <br/>
+                        <div class="data">
+                            <span class="span-label">Sexo: </span><label>{{persona.genero}}</label>
+                            <br>
+                        </div>
+                        <br>
+                        <div class="data">
+                            <span class="span-label">Pais: </span><label>{{persona.pais}}</label>
+                            <br>
+                        </div>
+                    </div>
+                    <br>
+                    <button mat-button (click)="navigateToRecovery()" style="background-color: green;">Cambiar contraseña</button>
+                </mat-card>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</body>
