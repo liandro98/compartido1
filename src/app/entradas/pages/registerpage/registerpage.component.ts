@@ -5,6 +5,39 @@ import { UserService } from '../../services/usuario.service';
 @Component({
   selector: 'app-registerpage',
   templateUrl: './registerpage.component.html',
+  styles:
+  `
+  .container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+mat-card {
+  width: 100%;
+  padding: 20px;
+  background-color: white;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+  `
 })
 export class RegisterpageComponent implements OnInit {
   vehicleForm: FormGroup;
