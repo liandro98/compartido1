@@ -1,53 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-registerpage',
   templateUrl: './registerpage.component.html',
-  styles: `
-  
-  .container {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-   /* Cambia este color según tu preferencia */
-  border-radius: 8px; /* Opcional: para esquinas redondeadas */
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-mat-card {
-  width: 100%;
-  padding: 20px;
-  background-color: white;
-}
-
-mat-form-field {
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-.button-container {
-  text-align: center;
-  margin-top: 20px;
-}
-  
-  `
 })
-
 export class RegisterpageComponent implements OnInit {
   vehicleForm: FormGroup;
   selectedUserType: string = '';
   selectedCareer: string = '';
-  
-  // Define the groups for each career
+
   careerGroups: { [key: string]: string[] } = {
     'administracion': ['GDA0631', 'GDA0632'],
     'turismo': ['GDT0631', 'GDT0632'],
@@ -58,14 +21,12 @@ export class RegisterpageComponent implements OnInit {
     'procesos': ['GDP0631', 'GDP0632']
   };
 
-  constructor(private fb: FormBuilder) {
-    // Initialize the form with default values
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.vehicleForm = this.fb.group({
       userType: ['', Validators.required],
-      controlNumber: ['', Validators.required],
+      controlNumber: [''],
       email: ['', [Validators.required, Validators.email]],
       fullName: ['', Validators.required],
-      birthDate: ['', Validators.required],
       career: [''],
       group: ['']
     });
@@ -75,37 +36,36 @@ export class RegisterpageComponent implements OnInit {
     this.onUserTypeChange();
   }
 
-  // Handle user type change
   onUserTypeChange(): void {
-    // Reset form controls based on user type
-    if (this.vehicleForm.value.userType === 'student') {
+    const userType = this.vehicleForm.value.userType;
+
+    if (userType === 'student') {
       this.vehicleForm.addControl('controlNumber', this.fb.control('', Validators.required));
       this.vehicleForm.addControl('career', this.fb.control('', Validators.required));
       this.vehicleForm.addControl('group', this.fb.control('', Validators.required));
-    } else {
+      this.vehicleForm.removeControl('birthDate'); // Remove Professor-specific field
+    } else if (userType === 'teacher') {
       this.vehicleForm.removeControl('controlNumber');
-      this.vehicleForm.removeControl('career');
-      this.vehicleForm.removeControl('group');
     }
   }
 
-  // Handle career change
   onCareerChange(): void {
     this.selectedCareer = this.vehicleForm.value.career;
   }
 
-  // Handle form submission
   onSubmit(): void {
     if (this.vehicleForm.valid) {
       const formData = this.vehicleForm.value;
-      console.log('Formulario enviado:', formData);
-
-      if (formData.userType === 'student') {
-        console.log('Alumno:', formData);
-      } else if (formData.userType === 'teacher') {
-        console.log('Profesor:', formData);
-      }
-      alert('Formulario enviado');
+      this.userService.registerUser(formData).subscribe(
+        response => {
+          console.log('Registro exitoso:', response);
+          alert('Formulario enviado');
+        },
+        error => {
+          console.error('Error al registrar usuario:', error);
+          alert('Error al registrar usuario');
+        }
+      );
     } else {
       alert('Por favor, complete todos los campos requeridos.');
     }

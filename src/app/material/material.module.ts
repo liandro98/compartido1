@@ -53,7 +53,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatButtonModule,
     MatCheckboxModule,
     MatTableModule,
-    MatDividerModule
+    MatDividerModule,
     
 
 

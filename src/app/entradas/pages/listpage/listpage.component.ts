@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EntradasService } from '../../services/entradas.service';
+import { EntradaSalidaService } from '../../services/entrada-salida.service';
+import { Vehiculo } from '../../interfaces/vehiculo';
 
 @Component({
   selector: 'app-listpage',
@@ -26,14 +27,14 @@ import { EntradasService } from '../../services/entradas.service';
     `
   ]
 })
-export class ListpageComponent implements OnInit {
-  parkedVehicles: any[] = [];
+export class ListpageComponent /*implements OnInit*/ {
+ /* parkedVehicles: any[] = [];
   maxParkingSpaces: number = 30;
   occupiedSpaces: number = 0;
   displayedColumns: string[] = ['type', 'licensePlate', 'entryTime', 'exitTime', 'userType', 'action'];
   dataSource = new MatTableDataSource<any>(this.parkedVehicles);
 
-  constructor(private entradasService: EntradasService) { }
+  constructor(private entradasService: EntradaSalidaService extends Vehiculo ) { }
 
   ngOnInit(): void {
     this.entradasService.getVehiculos()
@@ -69,5 +70,5 @@ export class ListpageComponent implements OnInit {
   updateOccupiedSpaces() {
     this.occupiedSpaces = this.parkedVehicles.length;
     this.dataSource = new MatTableDataSource<any>(this.parkedVehicles); // Actualizar dataSource
-  }
+  }*/
 }
