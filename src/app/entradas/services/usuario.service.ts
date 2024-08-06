@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environments } from '../../../environments/environments';
 import { Usuario } from '../interfaces/usuario';
 
 
@@ -29,4 +28,3 @@ export class UserService {
     return this.http.get<Usuario[]>(this.apiUrl + '/search', { params: query });
   }
 }
-
