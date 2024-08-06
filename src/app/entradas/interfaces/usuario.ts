@@ -8,3 +8,4 @@ export interface Usuario {
   groupo?: string; // Opcional para profesores
   // Agrega aquí otros campos específicos si es necesario
 }
+
