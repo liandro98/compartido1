@@ -41,8 +41,11 @@ mat-form-field {
 })
 export class RegisterpageComponent implements OnInit {
   vehicleForm: FormGroup;
-  selectedUserType: string = '';
+  userId: string = ''; // Para actualizar y eliminar usuarios
+  searchId: string = '';
+  searchName: string = '';
   selectedCareer: string = '';
+  users: any[] = []; // Para almacenar usuarios encontrados
 
   careerGroups: { [key: string]: string[] } = {
     'administracion': ['GDA0631', 'GDA0632'],
@@ -58,8 +61,8 @@ export class RegisterpageComponent implements OnInit {
     this.vehicleForm = this.fb.group({
       userType: ['', Validators.required],
       controlNumber: [''],
-      email: ['', [Validators.required, Validators.email]],
-      fullName: ['', Validators.required],
+      email: [''],
+      fullName: [''],
       career: [''],
       groupo: ['']
     });
@@ -76,7 +79,6 @@ export class RegisterpageComponent implements OnInit {
       this.vehicleForm.addControl('controlNumber', this.fb.control('', Validators.required));
       this.vehicleForm.addControl('career', this.fb.control('', Validators.required));
       this.vehicleForm.addControl('groupo', this.fb.control('', Validators.required));
-      this.vehicleForm.removeControl('birthDate'); // Remove Professor-specific field
     } else if (userType === 'Profesor') {
       this.vehicleForm.addControl('controlNumber', this.fb.control('', Validators.required));
     }
@@ -87,7 +89,19 @@ export class RegisterpageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.vehicleForm.valid) {
+    if (this.vehicleForm.valid && this.userId) {
+      const formData = this.vehicleForm.value;
+      this.userService.updateUser(this.userId, formData).subscribe(
+        response => {
+          console.log('Actualización exitosa:', response);
+          alert('Usuario actualizado');
+        },
+        error => {
+          console.error('Error al actualizar usuario:', error);
+          alert('Error al actualizar usuario');
+        }
+      );
+    } else if (this.vehicleForm.valid) {
       const formData = this.vehicleForm.value;
       this.userService.registerUser(formData).subscribe(
         response => {
@@ -102,5 +116,36 @@ export class RegisterpageComponent implements OnInit {
     } else {
       alert('Por favor, complete todos los campos requeridos.');
     }
+  }
+
+  onDelete(): void {
+    if (this.userId) {
+      this.userService.deleteUser(this.userId).subscribe(
+        response => {
+          console.log('Eliminación exitosa:', response);
+          alert('Usuario eliminado');
+        },
+        error => {
+          console.error('Error al eliminar usuario:', error);
+          alert('Error al eliminar usuario');
+        }
+      );
+    } else {
+      alert('ID de usuario no especificado.');
+    }
+  }
+
+  searchUser(): void {
+    const query = { id: this.searchId || undefined, name: this.searchName || undefined };
+    this.userService.searchUser(query).subscribe(
+      users => {
+        this.users = users;
+        console.log('Usuarios encontrados:', users);
+        // Puedes mostrar los resultados en el frontend
+      },
+      error => {
+        console.error('Error al buscar usuarios:', error);
+      }
+    );
   }
 }

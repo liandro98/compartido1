@@ -9,12 +9,23 @@ import { Usuario } from '../interfaces/usuario';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/usuarios'; // Cambia esto si tu ruta es diferente
+  private apiUrl = 'http://localhost:3000/usuarios';
 
   constructor(private http: HttpClient) {}
 
-  // Método para registrar un nuevo usuario
   registerUser(usuario: Usuario): Observable<any> {
     return this.http.post<any>(this.apiUrl, usuario);
+  }
+
+  updateUser(id: string, usuario: Usuario): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, usuario);
+  }
+
+  deleteUser(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+  searchUser(query: { id?: string, name?: string }): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl + '/search', { params: query });
   }
 }

@@ -41,9 +41,8 @@
           <div *ngSwitchCase="'Profesor'">
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Clave de Profesor</mat-label>
-              <input matInput  formControlName="controlNumber">
+              <input matInput formControlName="controlNumber">
             </mat-form-field>
-            <!-- Puedes agregar más campos específicos para el profesor aquí si es necesario -->
           </div>
         </ng-container>
 
@@ -61,6 +60,38 @@
           <button mat-raised-button color="primary" type="submit">Registrar</button>
         </div>
       </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-content>
+      <h2>Buscar Usuario</h2>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>ID del Usuario</mat-label>
+        <input matInput [(ngModel)]="searchId" placeholder="Ingrese el ID del Usuario">
+      </mat-form-field>
+
+      <button mat-raised-button color="accent" (click)="searchUser()">Buscar</button>
+
+      <div *ngIf="users.length">
+        <h3>Usuarios Encontrados</h3>
+        <mat-list>
+          <mat-list-item *ngFor="let user of users">
+            {{ user.Nombre }} - {{ user.CorreoElectronico }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-content>
+      <h2>Eliminar Usuario</h2>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>ID del Usuario</mat-label>
+        <input matInput [(ngModel)]="userId" placeholder="Ingrese el ID del Usuario">
+      </mat-form-field>
+      <button mat-raised-button color="warn" (click)="onDelete()">Eliminar</button>
     </mat-card-content>
   </mat-card>
 </div>
