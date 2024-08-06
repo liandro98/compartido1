@@ -21,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'entradas',
+    redirectTo: 'auth',
     pathMatch: 'full'
 
   },
