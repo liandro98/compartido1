@@ -26,8 +26,5 @@ export class LayoutpageComponent {
     console.log("Help icon clicked");
   }
 
-  openNotifications() {
-    // Implement your notifications logic here
-    console.log("Notifications icon clicked");
-  }
+ 
 }
