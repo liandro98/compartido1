@@ -134,6 +134,7 @@ export class RegisterpageComponent implements OnInit {
       alert('ID de usuario no especificado.');
     }
   }
+  
 
   searchUser(): void {
     const query = { id: this.searchId || undefined, name: this.searchName || undefined };

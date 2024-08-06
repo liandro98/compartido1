@@ -29,3 +29,4 @@ export class UserService {
     return this.http.get<Usuario[]>(this.apiUrl + '/search', { params: query });
   }
 }
+
