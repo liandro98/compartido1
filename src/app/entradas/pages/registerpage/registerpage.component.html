@@ -70,9 +70,7 @@
         <mat-label>ID del Usuario</mat-label>
         <input matInput [(ngModel)]="searchId" placeholder="Ingrese el ID del Usuario">
       </mat-form-field>
-
       <button mat-raised-button color="accent" (click)="searchUser()">Buscar</button>
-
       <div *ngIf="users.length">
         <h3>Usuarios Encontrados</h3>
         <mat-list>
@@ -83,7 +81,6 @@
       </div>
     </mat-card-content>
   </mat-card>
-
   <mat-card>
     <mat-card-content>
       <h2>Eliminar Usuario</h2>
