@@ -89,30 +89,34 @@ export class RegisterpageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.vehicleForm.valid && this.userId) {
+    if (this.vehicleForm.valid) {
       const formData = this.vehicleForm.value;
-      this.userService.updateUser(this.userId, formData).subscribe(
-        response => {
-          console.log('Actualización exitosa:', response);
-          alert('Usuario actualizado');
-        },
-        error => {
-          console.error('Error al actualizar usuario:', error);
-          alert('Error al actualizar usuario');
-        }
-      );
-    } else if (this.vehicleForm.valid) {
-      const formData = this.vehicleForm.value;
-      this.userService.registerUser(formData).subscribe(
-        response => {
-          console.log('Registro exitoso:', response);
-          alert('Formulario enviado');
-        },
-        error => {
-          console.error('Error al registrar usuario:', error);
-          alert('Error al registrar usuario');
-        }
-      );
+      if (this.userId) {
+        this.userService.updateUser(this.userId, formData).subscribe(
+          response => {
+            console.log('Actualización exitosa:', response);
+            alert('Usuario actualizado');
+            this.userId = ''; // Limpiar ID después de la actualización
+            this.vehicleForm.reset(); // Limpiar el formulario
+          },
+          error => {
+            console.error('Error al actualizar usuario:', error);
+            alert('Error al actualizar usuario');
+          }
+        );
+      } else {
+        this.userService.registerUser(formData).subscribe(
+          response => {
+            console.log('Registro exitoso:', response);
+            alert('Formulario enviado');
+            this.vehicleForm.reset(); // Limpiar el formulario después del registro
+          },
+          error => {
+            console.error('Error al registrar usuario:', error);
+            alert('Error al registrar usuario');
+          }
+        );
+      }
     } else {
       alert('Por favor, complete todos los campos requeridos.');
     }
@@ -124,6 +128,8 @@ export class RegisterpageComponent implements OnInit {
         response => {
           console.log('Eliminación exitosa:', response);
           alert('Usuario eliminado');
+          this.userId = ''; // Limpiar ID después de la eliminación
+          this.vehicleForm.reset(); // Limpiar el formulario
         },
         error => {
           console.error('Error al eliminar usuario:', error);
@@ -134,19 +140,67 @@ export class RegisterpageComponent implements OnInit {
       alert('ID de usuario no especificado.');
     }
   }
-  
+
+  onUpdate(): void {
+    if (this.userId) {
+      const formData = this.vehicleForm.value;
+      this.userService.updateUser(this.userId, formData).subscribe(
+        response => {
+          console.log('Actualización exitosa:', response);
+          alert('Usuario actualizado');
+          this.userId = ''; // Limpiar ID después de la actualización
+          this.vehicleForm.reset(); // Limpiar el formulario
+        },
+        error => {
+          console.error('Error al actualizar usuario:', error);
+          alert('Error al actualizar usuario');
+        }
+      );
+    } else {
+      alert('ID de usuario no especificado para actualización.');
+    }
+  }
 
   searchUser(): void {
     const query = { id: this.searchId || undefined, name: this.searchName || undefined };
     this.userService.searchUser(query).subscribe(
-      users => {
-        this.users = users;
-        console.log('Usuarios encontrados:', users);
-        // Puedes mostrar los resultados en el frontend
+      (response: any) => {
+        console.log('Respuesta del backend:', response);
+        this.users = response;
+        if (response.length > 0) {
+          this.populateForm(response[0]); // Asumimos que `response[0]` es el usuario encontrado
+        }
       },
       error => {
         console.error('Error al buscar usuarios:', error);
       }
     );
   }
+  
+
+
+  populateForm(user: any): void {
+    this.vehicleForm.patchValue({
+      userType: user.TipoUsuario || '',
+      controlNumber: user.controlNumber || '',
+      email: user.CorreoElectronico || '',
+      fullName: user.Nombre || '',
+      career: user.career || '', // Asegúrate de usar el campo correcto
+      groupo: user.groupo || ''
+    });
+  
+    // Si el tipo de usuario es Estudiante, asegúrate de que los campos adicionales estén presentes
+    if (user.TipoUsuario === 'Estudiante') {
+      this.vehicleForm.addControl('career', this.fb.control(user.career || '', Validators.required));
+      this.vehicleForm.addControl('groupo', this.fb.control(user.groupo || '', Validators.required));
+      
+    } else if (user.TipoUsuario === 'Profesor') {
+    }
+    
+    this.userId = user.idUsuario; // Asegúrate de usar el campo correcto
+  }
+  
+
+  
+
 }
