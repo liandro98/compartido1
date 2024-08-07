@@ -84,9 +84,11 @@ export class RegisterpageComponent implements OnInit {
     }
   }
 
-  onCareerChange(): void {
-    this.selectedCareer = this.vehicleForm.value.career;
-  }
+  
+  
+  
+  
+  
 
   onSubmit(): void {
     if (this.vehicleForm.valid) {
@@ -177,30 +179,58 @@ export class RegisterpageComponent implements OnInit {
     );
   }
   
-
-
+  onCareerChange(): void {
+    const career = this.vehicleForm.value.career;
+    console.log('Carrera seleccionada en onCareerChange:', career);
+  
+    if (career) {
+      this.selectedCareer = career;
+      const groups = this.careerGroups[career] || [];
+      console.log('Grupos para la carrera seleccionada:', groups);
+      // Actualiza el control del grupo
+      this.vehicleForm.get('groupo')?.setValue('');
+      this.vehicleForm.updateValueAndValidity(); // Forzar la actualización
+    } else {
+      this.selectedCareer = '';
+      this.vehicleForm.get('groupo')?.setValue('');
+      this.vehicleForm.updateValueAndValidity(); // Forzar la actualización
+    }
+  }
+  
   populateForm(user: any): void {
     this.vehicleForm.patchValue({
       userType: user.TipoUsuario || '',
       controlNumber: user.controlNumber || '',
       email: user.CorreoElectronico || '',
       fullName: user.Nombre || '',
-      career: user.career || '', // Asegúrate de usar el campo correcto
+      career: user.career || '',
       groupo: user.groupo || ''
     });
   
-    // Si el tipo de usuario es Estudiante, asegúrate de que los campos adicionales estén presentes
+    this.userId = user.idUsuario;
+  
     if (user.TipoUsuario === 'Estudiante') {
-      this.vehicleForm.addControl('career', this.fb.control(user.career || '', Validators.required));
-      this.vehicleForm.addControl('groupo', this.fb.control(user.groupo || '', Validators.required));
-      
-    } else if (user.TipoUsuario === 'Profesor') {
+      if (!this.vehicleForm.get('career')) {
+        this.vehicleForm.addControl('career', this.fb.control(user.career || '', Validators.required));
+      }
+      if (!this.vehicleForm.get('groupo')) {
+        this.vehicleForm.addControl('groupo', this.fb.control(user.groupo || '', Validators.required));
+      }
+      this.selectedCareer = user.career || '';
+      const groups = this.careerGroups[this.selectedCareer] || [];
+      if (user.groupo && groups.includes(user.groupo)) {
+        this.vehicleForm.get('groupo')?.setValue(user.groupo);
+      } else {
+        this.vehicleForm.get('groupo')?.setValue('');
+      }
+    } else {
+      this.vehicleForm.removeControl('career');
+      this.vehicleForm.removeControl('groupo');
+      this.selectedCareer = '';
     }
-    
-    this.userId = user.idUsuario; // Asegúrate de usar el campo correcto
   }
   
-
+  
   
 
 }
