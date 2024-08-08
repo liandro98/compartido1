@@ -46,6 +46,7 @@ export class RegisterpageComponent implements OnInit {
   searchName: string = '';
   selectedCareer: string = '';
   users: any[] = []; // Para almacenar usuarios encontrados
+  allUsers: any[] = []; // Para almacenar todos los usuarios
 
   careerGroups: { [key: string]: string[] } = {
     'administracion': ['GDA0631', 'GDA0632'],
@@ -70,6 +71,7 @@ export class RegisterpageComponent implements OnInit {
 
   ngOnInit(): void {
     this.onUserTypeChange();
+
   }
 
   onUserTypeChange(): void {
@@ -85,8 +87,16 @@ export class RegisterpageComponent implements OnInit {
   }
 
   
-  
-  
+  fetchAllUsers() {
+    this.userService.getAllUsers().subscribe(
+      (users) => {
+        this.users = users;
+      },
+      (error) => {
+        console.error('Error fetching users', error);
+      }
+    );
+  }
   
   
 
