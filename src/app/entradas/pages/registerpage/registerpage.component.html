@@ -1,3 +1,4 @@
+
 <div class="container">
   <h1 style="color: black;">Registro de Usuario</h1>
   <mat-card>
@@ -70,14 +71,7 @@
 
   <mat-card>
     <mat-card-content>
-      <h2>Buscar Usuario</h2>
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>ID del Usuario</mat-label>
-        <input matInput [(ngModel)]="searchId" placeholder="Ingrese el ID del Usuario">
-      </mat-form-field>
-  
-      <button mat-raised-button color="accent" (click)="searchUser()">Buscar</button>
-      <button mat-raised-button color="primary" (click)="fetchAllUsers()">Listar Todos</button>
+      <button mat-raised-button color="primary" (click)="fetchAllUsers()">Listar Usuarios</button>
   
       <div *ngIf="users.length">
         <h3>Usuarios Encontrados</h3>

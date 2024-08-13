@@ -5,8 +5,8 @@ import { UserService } from '../../services/usuario.service';
 @Component({
   selector: 'app-registerpage',
   templateUrl: './registerpage.component.html',
-  styles:
-  `
+  styles:`
+  
   .container {
   max-width: 600px;
   margin: 20px auto;
@@ -36,8 +36,8 @@ mat-form-field {
 .button-container {
   text-align: center;
   margin-top: 20px;
-}
-  `
+}`
+  
 })
 export class RegisterpageComponent implements OnInit {
   vehicleForm: FormGroup;
@@ -47,6 +47,7 @@ export class RegisterpageComponent implements OnInit {
   selectedCareer: string = '';
   users: any[] = []; // Para almacenar usuarios encontrados
   allUsers: any[] = []; // Para almacenar todos los usuarios
+    filteredUsers: any[] = []; // Para almacenar usuarios filtrados
 
   careerGroups: { [key: string]: string[] } = {
     'administracion': ['GDA0631', 'GDA0632'],
@@ -61,11 +62,11 @@ export class RegisterpageComponent implements OnInit {
   constructor(private fb: FormBuilder, private userService: UserService) {
     this.vehicleForm = this.fb.group({
       userType: ['', Validators.required],
-      controlNumber: [''],
-      email: [''],
-      fullName: [''],
-      career: [''],
-      groupo: ['']
+      controlNumber: ['', Validators.required],
+      email: ['',Validators.required],
+      fullName: ['',Validators.required],
+      career: ['',Validators.required],
+      groupo: ['',Validators.required]
     });
   }
 
@@ -82,7 +83,6 @@ export class RegisterpageComponent implements OnInit {
       this.vehicleForm.addControl('career', this.fb.control('', Validators.required));
       this.vehicleForm.addControl('groupo', this.fb.control('', Validators.required));
     } else if (userType === 'Profesor') {
-      this.vehicleForm.addControl('controlNumber', this.fb.control('', Validators.required));
     }
   }
 
@@ -173,21 +173,6 @@ export class RegisterpageComponent implements OnInit {
     }
   }
 
-  searchUser(): void {
-    const query = { id: this.searchId || undefined, name: this.searchName || undefined };
-    this.userService.searchUser(query).subscribe(
-      (response: any) => {
-        console.log('Respuesta del backend:', response);
-        this.users = response;
-        if (response.length > 0) {
-          this.populateForm(response[0]); // Asumimos que `response[0]` es el usuario encontrado
-        }
-      },
-      error => {
-        console.error('Error al buscar usuarios:', error);
-      }
-    );
-  }
   
   onCareerChange(): void {
     const career = this.vehicleForm.value.career;
@@ -244,3 +229,4 @@ export class RegisterpageComponent implements OnInit {
   
 
 }
+
