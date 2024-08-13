@@ -66,7 +66,7 @@ export class RegistroProveedorpageComponent implements OnInit {
       const formData: Supplier = {
         userType: 'Proveedor',
         idUsuario: '', // Dejar vacío si se generará automáticamente o asignar el valor si ya se tiene
-        email: 'example@example.com', // Asigna el valor real del correo electrónico aquí
+        email: '', // El email puede ser vacío o nulo
         fullName: this.supplierForm.get('providerName')?.value,
         model: this.supplierForm.get('model')?.value,
         plates: this.supplierForm.get('plates')?.value,
