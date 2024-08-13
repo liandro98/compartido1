@@ -1,5 +1,6 @@
 export interface Usuario {
   userType: 'Estudiante' | 'Profesor';
+  idUsuario: string;
   controlNumber?: string; // Opcional para profesores
   email: string;
   fullName: string;

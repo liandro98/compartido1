@@ -22,6 +22,8 @@ import { NgModule } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 
 @NgModule({
@@ -55,10 +57,9 @@ import { MatDividerModule } from '@angular/material/divider';
     MatCheckboxModule,
     MatTableModule,
     MatDividerModule,
+    ToastModule
     
-
-
-    
-  ]
+  ],
+  providers: [MessageService],
 })
 export class MaterialModule { }

@@ -27,4 +27,8 @@ export class UserService {
   searchUser(query: { id?: string, name?: string }): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.apiUrl + '/search', { params: query });
   }
+  
+  getAllUsers(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl + '/all');
+  }
 }
