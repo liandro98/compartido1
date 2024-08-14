@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { Empleado } from '../interfaces/empleado'; 
+import { catchError } from 'rxjs/operators';
+import { Empleado } from '../interfaces/empleado';
 import { environments } from '../../../environments/environments';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,30 +12,60 @@ import { environments } from '../../../environments/environments';
 export class EmpleadoService {
   private baseUrl: string = environments.baseUrl;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  getEmpleados(): Observable<Empleado[]> {
-    return this.httpClient.get<Empleado[]>(`${this.baseUrl}/empleados`)
-      .pipe(catchError(() => of([])));
+  // Agregar un nuevo trabajador
+  addTrabajador(newTrabajador: Empleado): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/trabajadores`, newTrabajador)
+      .pipe(
+        catchError((error) => {
+          console.error('Error al agregar trabajador:', error);
+          return of(undefined as any);
+        })
+      );
   }
 
-  getEmpleadoById(id: number): Observable<Empleado | undefined> {
-    return this.httpClient.get<Empleado>(`${this.baseUrl}/empleados/${id}`)
-      .pipe(catchError(() => of(undefined)));
+  // Obtener todos los trabajadores
+  getTrabajadores(): Observable<Empleado[]> {
+    return this.httpClient.get<Empleado[]>(`${this.baseUrl}/trabajadores`)
+      .pipe(
+        catchError((error) => {
+          console.error('Error al obtener trabajadores:', error);
+          return of([]);
+        })
+      );
   }
 
-  addEmpleado(empleado: Empleado): Observable<Empleado> {
-    return this.httpClient.post<Empleado>(`${this.baseUrl}/empleados`, empleado)
-      .pipe(catchError(() => of(undefined as any)));
+  // Obtener un trabajador por ID
+  getTrabajador(idEmpleado: number): Observable<Empleado> {
+    return this.httpClient.get<Empleado>(`${this.baseUrl}/trabajadores/${idEmpleado}`)
+      .pipe(
+        catchError((error) => {
+          console.error('Error al obtener trabajador:', error);
+          return of(undefined as any);
+        })
+      );
   }
 
-  updateEmpleado(empleado: Empleado): Observable<Empleado> {
-    return this.httpClient.put<Empleado>(`${this.baseUrl}/empleados/${empleado.idEmpleado}`, empleado)
-      .pipe(catchError(() => of(undefined as any)));
+  // Actualizar un trabajador
+  updateTrabajador(idEmpleado: number, updatedTrabajador: Empleado): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/trabajadores/${idEmpleado}`, updatedTrabajador)
+      .pipe(
+        catchError((error) => {
+          console.error('Error al actualizar trabajador:', error);
+          return of(undefined as any);
+        })
+      );
   }
 
-  deleteEmpleadoById(id: number): Observable<boolean> {
-    return this.httpClient.delete(`${this.baseUrl}/empleados/${id}`)
-      .pipe(catchError(() => of(false)), map(() => true));
+  // Eliminar un trabajador
+  deleteTrabajador(idEmpleado: number): Observable<any> {
+    return this.httpClient.delete(`${this.baseUrl}/trabajadores/${idEmpleado}`)
+      .pipe(
+        catchError((error) => {
+          console.error('Error al eliminar trabajador:', error);
+          return of(undefined as any);
+        })
+      );
   }
 }
