@@ -1,0 +1,32 @@
+<!-- permissions.component.html -->
+
+<div class="container">
+    <h1 style="color: black;">Administrar Permisos</h1>
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="permissionsForm" (ngSubmit)="onSubmit()">
+  
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Seleccionar Usuario</mat-label>
+            <mat-select formControlName="selectedUser">
+              <mat-option *ngFor="let user of users" [value]="user.id">{{ user.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-checkbox color="black" formControlName="canViewDashboard">Puede ver el dashboard</mat-checkbox>
+          <mat-checkbox color="black" formControlName="canManageUsers">Puede administrar usuarios</mat-checkbox>
+          <mat-checkbox color="black" formControlName="canEditContent">Puede editar contenido</mat-checkbox>
+  
+          <mat-checkbox color="black" formControlName="canEnter">Puede ingresar</mat-checkbox>
+          <mat-checkbox color="black" formControlName="canExit">Puede salir</mat-checkbox>
+          <mat-checkbox color="black" formControlName="canManageMovements">Puede administrar movimientos</mat-checkbox>
+          <!-- Agrega más permisos según sea necesario -->
+  
+          <div class="button-container">
+            <button mat-raised-button color="primary" type="submit">Guardar Permisos</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

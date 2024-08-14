@@ -1,0 +1,97 @@
+
+<div class="container">
+  <h1 style="color: black;">Registro de Usuario</h1>
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Tipo de Usuario</mat-label>
+          <mat-select formControlName="userType" (selectionChange)="onUserTypeChange()">
+            <mat-option value="Estudiante">Estudiante</mat-option>
+            <mat-option value="Profesor">Profesor</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+
+        <ng-container [ngSwitch]="vehicleForm.value.userType">
+          <div *ngSwitchCase="'Estudiante'">
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Número de Control</mat-label>
+              <input matInput formControlName="controlNumber">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Carrera</mat-label>
+              <mat-select formControlName="career" (selectionChange)="onCareerChange()">
+                <mat-option value="administracion">Administración</mat-option>
+                <mat-option value="turismo">Turismo</mat-option>
+                <mat-option value="entornos">Entornos</mat-option>
+                <mat-option value="software">Desarrollo de Software</mat-option>
+                <mat-option value="diseno">Diseño</mat-option>
+                <mat-option value="mecatronica">Mecatrónica</mat-option>
+                <mat-option value="procesos">Procesos</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Grupo</mat-label>
+              <mat-select formControlName="groupo">
+                <mat-option *ngFor="let groupo of careerGroups[selectedCareer]" [value]="groupo">
+                  {{ groupo }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+          </div>
+          
+          
+          <div *ngSwitchCase="'Profesor'">
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Clave de Profesor</mat-label>
+              <input matInput formControlName="controlNumber">
+            </mat-form-field>
+          </div>
+        </ng-container>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Correo Electrónico</mat-label>
+          <input matInput type="email" formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nombre Completo</mat-label>
+          <input matInput formControlName="fullName">
+        </mat-form-field>
+
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">Registrar</button>
+          <button mat-raised-button color="primary" type="button" (click)="onUpdate()" [disabled]="!userId">Actualizar</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  
+  <mat-card>
+    <mat-card-content>
+      <button mat-raised-button color="primary" (click)="fetchAllUsers()">Listar Usuarios</button>
+      
+      <div *ngIf="users.length">
+        <h3>Usuarios Encontrados</h3>
+        <mat-list>
+          <mat-list-item *ngFor="let user of users" (click)="populateForm(user)">
+          {{ user.idUsuario }} - {{ user.Nombre }} - {{ user.CorreoElectronico }}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+  <mat-card>
+    <mat-card-content>
+      <h2>Eliminar Usuario</h2>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>ID del Usuario</mat-label>
+        <input matInput [(ngModel)]="userId" placeholder="Ingrese el ID del Usuario">
+      </mat-form-field>
+      <button mat-raised-button color="warn" (click)="onDelete()">Eliminar</button>
+    </mat-card-content>
+  </mat-card>
+</div>

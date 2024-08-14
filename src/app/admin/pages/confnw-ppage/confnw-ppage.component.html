@@ -1,0 +1,34 @@
+<div class="container">
+    <mat-card>
+      <mat-card-content>
+        <h2>¡Gracias!</h2>
+        <p>Tu código ha sido verificado exitosamente.</p>
+        <button mat-raised-button color="primary" (click)="goToLogin()">Volver al inicio</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <style>
+     body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+  </style>

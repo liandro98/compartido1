@@ -1,0 +1,145 @@
+{
+    "Usuario": [
+      {
+        "idUsuario": 1,
+        "Nombre": "Juan Perez",
+        "CorreoElectronico": "juan.perez@example.com",
+        "Contrasena": "hashedpassword1",
+        "TipoUsuario": "Empleado"
+      },
+      {
+        "idUsuario": 2,
+        "Nombre": "Maria Garcia",
+        "CorreoElectronico": "maria.garcia@example.com",
+        "Contrasena": "hashedpassword2",
+        "TipoUsuario": "Estudiante"
+      },
+      {
+        "idUsuario": 3,
+        "Nombre": "Carlos Rodriguez",
+        "CorreoElectronico": "carlos.rodriguez@example.com",
+        "Contrasena": "hashedpassword3",
+        "TipoUsuario": "Profesor"
+      }
+    ],
+    "Rol": [
+      {
+        "idRol": 1,
+        "NombreRol": "Administrador"
+      },
+      {
+        "idRol": 2,
+        "NombreRol": "Usuario"
+      }
+    ],
+    "Empleado": [
+      {
+        "idEmpleado": 1,
+        "idUsuario": 1,
+        "Cargo": "Gerente",
+        "idRol": 1
+      }
+    ],
+    "Administrador": [
+      {
+        "idAdministrador": 1,
+        "idEmpleado": 1
+      }
+    ],
+    "Estudiante": [
+      {
+        "idEstudiante": 1,
+        "idUsuario": 2,
+        "Carrera": "Ingeniería Informática",
+        "NumeroControlEscolar": "123456"
+      }
+    ],
+    "Profesor": [
+      {
+        "idProfesor": 1,
+        "idUsuario": 3,
+        "Departamento": "Ciencias de la Computación"
+      }
+    ],
+    "Permiso": [
+      {
+        "idPermiso": 1,
+        "NombrePermiso": "Leer"
+      },
+      {
+        "idPermiso": 2,
+        "NombrePermiso": "Escribir"
+      }
+    ],
+    "RolPermiso": [
+      {
+        "idRol": 1,
+        "idPermiso": 1
+      },
+      {
+        "idRol": 1,
+        "idPermiso": 2
+      }
+    ],
+    "Sesion": [
+      {
+        "idSesion": 1,
+        "idUsuario": 1,
+        "FechaHoraInicio": "2024-07-30T08:00:00",
+        "FechaHoraFin": "2024-07-30T12:00:00",
+        "DireccionIP": "192.168.0.1"
+      }
+    ],
+    "Reclamacion": [
+      {
+        "idReclamacion": 1,
+        "idUsuario": 1,
+        "Categoria": "Queja",
+        "Fecha": "2024-07-29",
+        "Estado": "Pendiente",
+        "Comentarios": "El estacionamiento estaba lleno."
+      }
+    ],
+    "Reporte": [
+      {
+        "idReporte": 1,
+        "idUsuario": 2,
+        "Fecha": "2024-07-29",
+        "Contenido": "Reporte de uso del estacionamiento."
+      }
+    ],
+    "Notificacion": [
+      {
+        "idNotificacion": 1,
+        "idUsuario": 1,
+        "FechaHora": "2024-07-30T10:00:00",
+        "Mensaje": "Su vehículo está mal estacionado."
+      }
+    ],
+    "Politica": [
+      {
+        "idPolitica": 1,
+        "Descripcion": "Política de uso del estacionamiento.",
+        "FechaActualizacion": "2024-07-01"
+      }
+    ],
+    "Vehiculo": [
+      {
+        "idVehiculo": 1,
+        "Placa": "ABC123",
+        "Marca": "Toyota",
+        "Modelo": "Corolla",
+        "Descripcion": "Sedán blanco."
+      }
+    ],
+    "EntradaSalida": [
+      {
+        "idEntradaSalida": 1,
+        "idVehiculo": 1,
+        "idUsuario": 1,
+        "HoraEntrada": "2024-07-30T08:00:00",
+        "HoraSalida": "2024-07-30T12:00:00"
+      }
+    ]
+  }
+  

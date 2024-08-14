@@ -1,0 +1,35 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Administrar Roles</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre del Rol</mat-label>
+          <input matInput formControlName="roleName">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Tipo de Rol</mat-label>
+          <mat-select formControlName="roleType">
+            <mat-option value="worker">Trabajador</mat-option>
+            <mat-option value="general">General</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="buttons">
+          <button mat-raised-button color="primary" type="submit">Guardar</button>
+          <button mat-raised-button color="warn" type="button" (click)="onDelete()">Eliminar</button>
+        </div>
+      </form>
+      <mat-divider></mat-divider>
+      <mat-list>
+        <mat-list-item *ngFor="let role of roles">
+          <div mat-line>{{ role.name }}</div>
+          <div mat-line>{{ role.type }}</div>
+          <button mat-icon-button color="accent" (click)="onEdit(role)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+  

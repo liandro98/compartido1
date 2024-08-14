@@ -1,0 +1,79 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Administrar Trabajadores</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- Selector de Trabajadores -->
+    <mat-form-field appearance="fill">
+      <mat-label>Seleccionar Trabajador</mat-label>
+      <mat-select (selectionChange)="onWorkerSelect($event)">
+        <mat-option *ngFor="let worker of workers" [value]="worker">
+          {{ worker.Nombre }} - {{ worker.Departamento }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Formulario para agregar/actualizar trabajadores -->
+    <form [formGroup]="workerForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Clave del Trabajador</mat-label>
+        <input matInput formControlName="employeeId" readonly>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre Completo</mat-label>
+        <input matInput formControlName="fullName" required>
+        <mat-error *ngIf="workerForm.get('fullName')?.hasError('required')">
+          El nombre completo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Correo Electrónico</mat-label>
+        <input matInput type="email" formControlName="email" required>
+        <mat-error *ngIf="workerForm.get('email')?.hasError('required')">
+          El correo electrónico es requerido.
+        </mat-error>
+        <mat-error *ngIf="workerForm.get('email')?.hasError('email')">
+          Debe ser un correo electrónico válido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="Contrasena" required>
+        <mat-error *ngIf="workerForm.get('Contrasena')?.hasError('required')">
+          La contraseña es requerida.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Departamento</mat-label>
+        <input matInput formControlName="department" required>
+        <mat-error *ngIf="workerForm.get('department')?.hasError('required')">
+          El departamento es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Puesto</mat-label>
+        <input matInput formControlName="position" required>
+        <mat-error *ngIf="workerForm.get('position')?.hasError('required')">
+          El puesto es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <div class="buttons">
+        <button mat-raised-button color="primary" type="submit">
+          {{ selectedEmployee ? 'Actualizar' : 'Agregar' }}
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="onDelete()" *ngIf="selectedEmployee">
+          Eliminar
+        </button>
+        <button mat-raised-button color="primary" type="button" (click)="resetForm()">
+          Limpiar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
