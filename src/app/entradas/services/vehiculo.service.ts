@@ -1,40 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { environments } from '../../../environments/environments';
-import { Vehiculo } from '../interfaces/vehiculo';
+import { Observable } from 'rxjs';
+import { Vehicle } from '../interfaces/vehiculo';
 
 @Injectable({
   providedIn: 'root'
 })
-export class VehiculoService {
-  private baseUrl: string = environments.baseUrl;
+export class VehicleService {
+  private apiUrl = 'http://localhost:3000/vehicles';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getVehiculos(): Observable<Vehiculo[]> {
-    return this.httpClient.get<Vehiculo[]>(`${this.baseUrl}/vehiculos`)
-      .pipe(catchError(() => of([])));
+  registerVehicle(vehicle: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, vehicle);
   }
 
-  getVehiculoById(id: number): Observable<Vehiculo | undefined> {
-    return this.httpClient.get<Vehiculo>(`${this.baseUrl}/vehiculos/${id}`)
-      .pipe(catchError(() => of(undefined)));
+  updateVehicle(id: string, vehicle: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, vehicle);
   }
 
-  addVehiculo(vehiculo: Vehiculo): Observable<Vehiculo> {
-    return this.httpClient.post<Vehiculo>(`${this.baseUrl}/vehiculos`, vehiculo)
-      .pipe(catchError(() => of(undefined as any)));
+  deleteVehicle(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  updateVehiculo(vehiculo: Vehiculo): Observable<Vehiculo> {
-    return this.httpClient.put<Vehiculo>(`${this.baseUrl}/vehiculos/${vehiculo.idVehiculo}`, vehiculo)
-      .pipe(catchError(() => of(undefined as any)));
+  getAllVehicles(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  deleteVehiculoById(id: number): Observable<boolean> {
-    return this.httpClient.delete(`${this.baseUrl}/vehiculos/${id}`)
-      .pipe(catchError(() => of(false)), map(() => true));
+  searchVehicle(query: { id?: string }): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + '/search', { params: query });
   }
 }
