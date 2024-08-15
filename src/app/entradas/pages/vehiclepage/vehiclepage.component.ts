@@ -42,7 +42,7 @@ export class VehiclepageComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private vehicleService: VehicleService) {
     this.vehicleForm = this.fb.group({
-      vehicleType: ['', Validators.required],
+      vehicleType: [''],
       brand: [''],
       model: [''],
       licensePlate: [''],
@@ -54,6 +54,7 @@ export class VehiclepageComponent implements OnInit {
 
   ngOnInit(): void {
     // Any initialization logic
+    this.onVehicleTypeChange(this.vehicleForm.get('vehicleType')?.value);
   }
 
   onVehicleTypeChange(type: string): void {

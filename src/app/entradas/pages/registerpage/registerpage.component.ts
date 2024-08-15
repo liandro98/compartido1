@@ -65,8 +65,8 @@ export class RegisterpageComponent implements OnInit {
       controlNumber: ['', Validators.required],
       email: ['',Validators.required],
       fullName: ['',Validators.required],
-      career: ['',Validators.required],
-      groupo: ['',Validators.required]
+      career: [''],
+      groupo: ['']
     });
   }
 
