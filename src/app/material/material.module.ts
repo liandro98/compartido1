@@ -24,6 +24,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { AppComponent } from '../app.component';
 
 
 @NgModule({
@@ -61,5 +62,6 @@ import { MessageService } from 'primeng/api';
     
   ],
   providers: [MessageService],
+  bootstrap: [AppComponent]
 })
 export class MaterialModule { }
