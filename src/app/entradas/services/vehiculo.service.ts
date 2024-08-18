@@ -1,33 +1,33 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Vehicle } from '../interfaces/vehiculo';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleService {
-  private apiUrl = 'http://localhost:3000/vehicles';
+  private apiUrl = 'http://localhost:3000/vehicleRoutes'; // Actualiza con la URL correcta
 
   constructor(private http: HttpClient) {}
 
   registerVehicle(vehicle: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, vehicle);
+    return this.http.post<any>(`${this.apiUrl}/add`, vehicle);
   }
 
   updateVehicle(id: string, vehicle: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, vehicle);
+    return this.http.put<any>(`${this.apiUrl}/unadd${id}`, vehicle);
   }
 
   deleteVehicle(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+    return this.http.delete<any>(`${this.apiUrl}/delete/${id}`);
   }
 
   getAllVehicles(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  searchVehicle(query: { id?: string }): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + '/search', { params: query });
+  searchVehicle(id: string): Observable<any[]> {
+    const params = new HttpParams().set('id', id);
+    return this.http.post<any[]>(`${this.apiUrl}/search`, { id });
   }
 }

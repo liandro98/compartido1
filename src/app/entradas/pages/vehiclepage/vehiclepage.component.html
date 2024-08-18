@@ -5,7 +5,7 @@
       <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Tipo de Vehículo</mat-label>
-          <mat-select formControlName="vehicleType" (selectionChange)="onVehicleTypeChange($event.value)">
+          <mat-select formControlName="vehicleType" (selectionChange)="onVehicleTypeChange()">
             <mat-option value="car">Auto</mat-option>
             <mat-option value="motorcycle">Moto</mat-option>
             <mat-option value="bicycle">Bicicleta</mat-option>
@@ -16,37 +16,37 @@
           <div *ngSwitchCase="'car'">
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Marca</mat-label>
-              <input matInput formControlName="brand">
+              <input matInput formControlName="brand" required>
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Modelo</mat-label>
-              <input matInput formControlName="model">
+              <input matInput formControlName="model" required>
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Placa</mat-label>
-              <input matInput formControlName="licensePlate">
+              <input matInput formControlName="licensePlate" required>
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Color</mat-label>
-              <input matInput formControlName="color">
+              <input matInput formControlName="color" required>
             </mat-form-field>
           </div>
           <div *ngSwitchCase="'motorcycle'">
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Marca</mat-label>
-              <input matInput formControlName="brand">
+              <input matInput formControlName="brand" required>
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Modelo</mat-label>
-              <input matInput formControlName="model">
+              <input matInput formControlName="model" required>
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Placa</mat-label>
-              <input matInput formControlName="licensePlate">
+              <input matInput formControlName="licensePlate" required>
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Color</mat-label>
-              <input matInput formControlName="color">
+              <input matInput formControlName="color" required>
             </mat-form-field>
           </div>
           <div *ngSwitchCase="'bicycle'">
@@ -56,17 +56,37 @@
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Color</mat-label>
-              <input matInput formControlName="color">
+              <input matInput formControlName="color" required>
             </mat-form-field>
           </div>
         </ng-container>
 
-
+    
         <div class="button-container">
-          <button mat-raised-button color="primary" type="submit">Registrar</button>
-          <button mat-raised-button color="warn" (click)="onDelete()">Eliminar</button>
+          <button mat-raised-button color="primary" type="submit">Guardar</button>
+          <button mat-raised-button color="warn" type="button" (click)="onDelete()">Eliminar</button>
+          <button mat-raised-button color="accent" type="button" (click)="onSearch()">Buscar</button>
         </div>
       </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Vehículos Registrados</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngFor="let vehicle of vehicles">
+          <h3 mat-line>Tipo: {{ vehicle.vehicleType }}</h3>
+          <p mat-line>Marca: {{ vehicle.brand }}</p>
+          <p mat-line>Modelo: {{ vehicle.model }}</p>
+          <p mat-line>Placa: {{ vehicle.licensePlate }}</p>
+          <p mat-line>Color: {{ vehicle.color }}</p>
+          <p mat-line>Descripción: {{ vehicle.description }}</p>
+          <p mat-line>Fecha de Registro: {{ vehicle.registrationDate }}</p>
+        </mat-list-item>
+      </mat-list>
     </mat-card-content>
   </mat-card>
 </div>
