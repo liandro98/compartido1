@@ -1,38 +1,63 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../../entradas/services/usuario.service';
+import { Log } from '../../../entradas/interfaces/log'; // Asegúrate de que la ruta sea correcta
 
 @Component({
   selector: 'app-registropage',
   templateUrl: './registropage.component.html',
-  styles: ``
+  styles: `` 
 })
 export class RegistropageComponent {
 
+  logForm: FormGroup;
   showLoginForm = false; 
-  email: string = '';
-  password: string = '';
 
-
-
-  constructor(private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private userService: UserService
+  ) {
+    this.logForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
 
   openLoginForm() {
     this.showLoginForm = true;
   }
 
-  // Function to close the login form
   closeLoginForm() {
     this.showLoginForm = false;
   }
 
   entrar() {
-    // Aquí puedes implementar lógica para determinar a dónde redirigir en función del tipo de usuario, correo electrónico, etc.
-    // Por ejemplo, redirigir a diferentes rutas según el correo electrónico
-    if (this.email === 'admin@utng.com') {
-      this.router.navigate(['/admin/registro']); // Redirige al dashboard del administrador
-    } else {
-      this.router.navigate(['/entradas/list']); // Redirige al dashboard del usuario normal
+    if (this.logForm.invalid) {
+      // Manejo de errores de formulario
+      alert('Por favor, complete todos los campos correctamente.');
+      return;
     }
+
+    const { email: user, password:contrasena } = this.logForm.value;
+
+    this.userService.validateUser(user, contrasena).subscribe(
+      (res: Log) => {
+        if (res.TipoUsuario === 'Administrador') {
+          this.router.navigate(['/admin/registro']); // Redirige al dashboard del administrador
+        } else if (res.TipoUsuario === 'Empleado') {
+          this.router.navigate(['/entradas/list']); // Redirige al dashboard del empleado
+        } else {
+          // Manejo de otros tipos de usuarios si aplica
+          alert('Tipo de usuario no reconocido.');
+        }
+      },
+      (error) => {
+        console.error('Error al iniciar sesión:', error);
+        alert('Error en el inicio de sesión. Por favor, intente nuevamente.');
+      }
+    );
   }
 
   forgotPassword() {
@@ -40,8 +65,7 @@ export class RegistropageComponent {
   }
 
   onSubmit() {
-    console.log('Iniciar sesión con', this.email, this.password);
+    console.log('Iniciar sesión con', this.logForm.value.email);
     this.entrar();
   }
-
 }
