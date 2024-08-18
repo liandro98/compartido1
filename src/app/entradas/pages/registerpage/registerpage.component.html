@@ -69,21 +69,23 @@
     </mat-card-content>
   </mat-card>
   
-  <mat-card>
-    <mat-card-content>
-      <button mat-raised-button color="primary" (click)="fetchAllUsers()">Listar Usuarios</button>
-      
-      <div *ngIf="users.length">
-        <h3>Usuarios Encontrados</h3>
-        <mat-list>
-          <mat-list-item *ngFor="let user of users" (click)="populateForm(user)">
-          {{ user.idUsuario }} - {{ user.Nombre }} - {{ user.CorreoElectronico }}
-          </mat-list-item>
-        </mat-list>
-      </div>
-    </mat-card-content>
-  </mat-card>
   
+    
+      <!-- Selector de Usuarios -->
+      <mat-card *ngIf="users.length > 0" class="user-list-card">
+<mat-form-field appearance="fill">
+  <mat-label>Seleccionar Usuario</mat-label>
+  <mat-select (selectionChange)="onWorkerSelect($event)">
+    <mat-option *ngFor="let user of users" [value]="user">
+      {{ user.Nombre }} - {{ user.CorreoElectronico }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+</mat-card>
+
+
+
+
   <mat-card>
     <mat-card-content>
       <h2>Eliminar Usuario</h2>

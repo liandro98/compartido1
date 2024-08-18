@@ -72,7 +72,7 @@ export class RegisterpageComponent implements OnInit {
 
   ngOnInit(): void {
     this.onUserTypeChange();
-
+    this.fetchAllUsers();
   }
 
   onUserTypeChange(): void {
@@ -87,9 +87,10 @@ export class RegisterpageComponent implements OnInit {
   }
 
   
-  fetchAllUsers() {
+  fetchAllUsers(): void {
     this.userService.getAllUsers().subscribe(
       (users) => {
+        this.allUsers = users;
         this.users = users;
       },
       (error) => {
@@ -152,7 +153,12 @@ export class RegisterpageComponent implements OnInit {
       alert('ID de usuario no especificado.');
     }
   }
-
+  onWorkerSelect(event: any): void {
+    const selectedUser = event.value;
+    console.log('Usuario seleccionado:', selectedUser);
+    this.populateForm(selectedUser);
+  }
+  
   onUpdate(): void {
     if (this.userId) {
       const formData = this.vehicleForm.value;

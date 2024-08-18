@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { VehicleService } from '../../services/vehiculo.service'; 
+import { VehicleService } from '../../services/vehiculo.service';
 import { Vehicle } from '../../interfaces/vehiculo';
 
 @Component({
@@ -37,34 +37,49 @@ import { Vehicle } from '../../interfaces/vehiculo';
 })
 export class VehiclepageComponent implements OnInit {
   vehicleForm: FormGroup;
-  vehicleId: string = ''; // Para actualizar y eliminar vehículos
+  vehicleId: string = '';
   selectedVehicleType: string = '';
+  vehicles: Vehicle[] = [];  // Array to store vehicles
 
   constructor(private fb: FormBuilder, private vehicleService: VehicleService) {
     this.vehicleForm = this.fb.group({
-      vehicleType: [''],
+      vehicleType: ['', Validators.required],
       brand: [''],
       model: [''],
       licensePlate: [''],
       color: [''],
       description: [''],
-      registrationDate: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    // Any initialization logic
-    this.onVehicleTypeChange(this.vehicleForm.get('vehicleType')?.value);
+    this.loadVehicles();  // Load vehicles on initialization
+    this.onVehicleTypeChange();
   }
 
-  onVehicleTypeChange(type: string): void {
-    this.selectedVehicleType = type;
-    if (type === 'bicycle') {
-      this.vehicleForm.get('description')?.setValidators([Validators.required]);
-    } else {
-      this.vehicleForm.get('description')?.clearValidators();
+  onVehicleTypeChange(): void {
+    const vehicleType = this.vehicleForm.value.vehicleType;
+    this.selectedVehicleType = vehicleType;
+
+    if (vehicleType === 'car') {
+      this.vehicleForm.addControl('brand', this.fb.control('', Validators.required));
+      this.vehicleForm.addControl('model', this.fb.control('', Validators.required));
+      this.vehicleForm.addControl('licensePlate', this.fb.control('', Validators.required));
+      this.vehicleForm.addControl('color', this.fb.control('', Validators.required));
+      this.vehicleForm.removeControl('description');
+    } else if (vehicleType === 'motorcycle') {
+      this.vehicleForm.addControl('brand', this.fb.control('', Validators.required));
+      this.vehicleForm.addControl('model', this.fb.control('', Validators.required));
+      this.vehicleForm.addControl('licensePlate', this.fb.control('', Validators.required));
+      this.vehicleForm.addControl('color', this.fb.control(''));
+      this.vehicleForm.removeControl('description');
+    } else if (vehicleType === 'bicycle') {
+      this.vehicleForm.addControl('description', this.fb.control(''));
+      this.vehicleForm.addControl('color', this.fb.control('', Validators.required));
+      this.vehicleForm.removeControl('brand');
+      this.vehicleForm.removeControl('model');
+      this.vehicleForm.removeControl('licensePlate');
     }
-    this.vehicleForm.get('description')?.updateValueAndValidity();
   }
 
   onSubmit(): void {
@@ -75,8 +90,8 @@ export class VehiclepageComponent implements OnInit {
           response => {
             console.log('Actualización exitosa:', response);
             alert('Vehículo actualizado');
-            this.vehicleId = ''; // Limpiar ID después de la actualización
-            this.vehicleForm.reset(); // Limpiar el formulario
+            this.resetForm();
+            this.loadVehicles();  // Reload vehicles list after update
           },
           error => {
             console.error('Error al actualizar vehículo:', error);
@@ -88,7 +103,8 @@ export class VehiclepageComponent implements OnInit {
           response => {
             console.log('Registro exitoso:', response);
             alert('Vehículo registrado');
-            this.vehicleForm.reset(); // Limpiar el formulario después del registro
+            this.resetForm();
+            this.loadVehicles();  // Reload vehicles list after registration
           },
           error => {
             console.error('Error al registrar vehículo:', error);
@@ -107,8 +123,8 @@ export class VehiclepageComponent implements OnInit {
         response => {
           console.log('Eliminación exitosa:', response);
           alert('Vehículo eliminado');
-          this.vehicleId = ''; // Limpiar ID después de la eliminación
-          this.vehicleForm.reset(); // Limpiar el formulario
+          this.resetForm();
+          this.loadVehicles();  // Reload vehicles list after deletion
         },
         error => {
           console.error('Error al eliminar vehículo:', error);
@@ -120,6 +136,27 @@ export class VehiclepageComponent implements OnInit {
     }
   }
 
+  onSearch(): void {
+    const id = this.vehicleForm.get('id')?.value;
+    if (id) {
+      this.vehicleService.searchVehicle(id).subscribe(
+        response => {
+          if (response.length > 0) {
+            this.populateForm(response[0]);
+          } else {
+            alert('Vehículo no encontrado.');
+          }
+        },
+        error => {
+          console.error('Error al buscar vehículo:', error);
+          alert('Error al buscar vehículo');
+        }
+      );
+    } else {
+      alert('Por favor, ingrese un ID válido.');
+    }
+  }
+
   populateForm(vehicle: Vehicle): void {
     this.vehicleForm.patchValue({
       vehicleType: vehicle.vehicleType || '',
@@ -128,10 +165,26 @@ export class VehiclepageComponent implements OnInit {
       licensePlate: vehicle.licensePlate || '',
       color: vehicle.color || '',
       description: vehicle.description || '',
-      registrationDate: vehicle.registrationDate || ''
     });
-
     this.vehicleId = vehicle.id || '';
-    this.onVehicleTypeChange(vehicle.vehicleType);
+    this.onVehicleTypeChange();
+  }
+
+  resetForm(): void {
+    this.vehicleForm.reset();
+    this.vehicleId = '';
+    this.selectedVehicleType = '';
+  }
+
+  loadVehicles(): void {
+    this.vehicleService.getAllVehicles().subscribe(
+      response => {
+        this.vehicles = response;
+      },
+      error => {
+        console.error('Error al cargar vehículos:', error);
+        alert('Error al cargar vehículos');
+      }
+    );
   }
 }
