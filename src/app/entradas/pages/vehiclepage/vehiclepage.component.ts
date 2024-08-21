@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleService } from '../../services/vehiculo.service';
 import { Vehiculo } from '../../interfaces/vehiculo';
 import { FormBuilder, NgForm } from '@angular/forms';
-import { UserService } from '../../services/usuario.service'; // Import UserService
+import { UserService } from '../../services/usuario.service';
 import { Usuario } from '../../interfaces/usuario'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-vehiclepage',
@@ -42,11 +43,16 @@ export class VehiclepageComponent implements OnInit {
   vehicles: Vehiculo[] = [];
   editing: boolean = false;
   currentId: number | null = null;
-  selectedVehicleType: string = ''; // Store selected vehicle type
+  selectedVehicleType: string = '';
   idVehiculo: Vehiculo [] = [];
   users: any[] = []; // Para almacenar usuarios encontrados
 
-  constructor(private fb: FormBuilder , private vehicleService: VehicleService, private userService: UserService) { }
+  constructor(
+    private fb: FormBuilder,
+    private vehicleService: VehicleService,
+    private userService: UserService,
+    private snackBar: MatSnackBar // Inyectar MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -64,25 +70,34 @@ export class VehiclepageComponent implements OnInit {
   onVehicleTypeChange(type: string): void {
     this.selectedVehicleType = type;
     
-    // Clear description if vehicle type is not 'bicycle'
     if (type !== 'bicicleta') {
       this.vehicle.Descripcion = '';
     }
   }
   
-  
-
   onSubmit(form: NgForm): void {
     if (this.editing) {
-      this.vehicleService.updateVehicle(this.currentId!, this.vehicle).subscribe(() => {
-        this.loadVehicles();
-        this.resetForm();
-      });
+      this.vehicleService.updateVehicle(this.currentId!, this.vehicle).subscribe(
+        () => {
+          this.loadVehicles();
+          this.resetForm();
+          this.snackBar.open('Vehículo actualizado con éxito', 'Cerrar', { panelClass: ['success-snackbar'] });
+        },
+        error => {
+          this.snackBar.open('Error al actualizar vehículo', 'Cerrar', { panelClass: ['error-snackbar'] });
+        }
+      );
     } else {
-      this.vehicleService.addVehicle(this.vehicle).subscribe(() => {
-        this.loadVehicles();
-        this.resetForm();
-      });
+      this.vehicleService.addVehicle(this.vehicle).subscribe(
+        () => {
+          this.loadVehicles();
+          this.resetForm();
+          this.snackBar.open('Vehículo agregado con éxito', 'Cerrar', { panelClass: ['success-snackbar'] });
+        },
+        error => {
+          this.snackBar.open('Error al agregar vehículo', 'Cerrar', { panelClass: ['error-snackbar'] });
+        }
+      );
     }
   }
 
@@ -91,14 +106,20 @@ export class VehiclepageComponent implements OnInit {
       this.vehicle = vehicle;
       this.currentId = id;
       this.editing = true;
-      this.selectedVehicleType = vehicle.TipoVehiculo; // Set the selected vehicle type
+      this.selectedVehicleType = vehicle.TipoVehiculo;
     });
   }
 
   deleteVehicle(id: number): void {
-    this.vehicleService.deleteVehicle(id).subscribe(() => {
-      this.loadVehicles();
-    });
+    this.vehicleService.deleteVehicle(id).subscribe(
+      () => {
+        this.loadVehicles();
+        this.snackBar.open('Vehículo eliminado con éxito', 'Cerrar', { panelClass: ['success-snackbar'] });
+      },
+      error => {
+        this.snackBar.open('Error al eliminar vehículo', 'Cerrar', { panelClass: ['error-snackbar'] });
+      }
+    );
   }
 
   resetForm(): void {
@@ -107,5 +128,4 @@ export class VehiclepageComponent implements OnInit {
     this.currentId = null;
     this.selectedVehicleType = '';
   }
-
 }

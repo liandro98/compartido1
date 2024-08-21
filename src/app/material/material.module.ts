@@ -26,6 +26,7 @@ import { MessageService } from 'primeng/api';
 import { AppComponent } from '../app.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -64,6 +65,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatNativeDateModule,
     MatButtonModule, 
     MatDatepickerModule,
+    ToastrModule,
+    MatDatepickerModule
     
   ],
   providers: [MessageService],

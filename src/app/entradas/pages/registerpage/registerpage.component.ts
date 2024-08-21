@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-registerpage',
   templateUrl: './registerpage.component.html',
-  styles:`
-  @import '~ngx-toastr/toastr.css';
-
+  styles: `
   .container {
     max-width: 600px;
     margin: 20px auto;
@@ -38,6 +36,7 @@ import { UserService } from '../../services/usuario.service';
   .button-container {
     text-align: center;
     margin-top: 20px;
+    
   }`
 })
 export class RegisterpageComponent implements OnInit {
@@ -50,7 +49,6 @@ export class RegisterpageComponent implements OnInit {
   allUsers: any[] = []; // Para almacenar todos los usuarios
   filteredUsers: any[] = []; // Para almacenar usuarios filtrados
 
-  
   careerGroups: { [key: string]: string[] } = {
     'administracion': ['GDA0631', 'GDA0632'],
     'turismo': ['GDT0631', 'GDT0632'],
@@ -64,7 +62,7 @@ export class RegisterpageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private toastr: ToastrService
+    private snackBar: MatSnackBar // Changed to MatSnackBar
   ) {
     this.vehicleForm = this.fb.group({
       userType: ['', Validators.required],
@@ -92,7 +90,7 @@ export class RegisterpageComponent implements OnInit {
       // Código específico para Profesor (si aplica)
     }
   }
-  
+
   fetchAllUsers(): void {
     this.userService.getAllUsers().subscribe(
       (users) => {
@@ -100,7 +98,7 @@ export class RegisterpageComponent implements OnInit {
         this.users = users;
       },
       (error) => {
-        this.toastr.error('Error fetching users', 'Error');
+        this.snackBar.open('Error fetching users', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
         console.error('Error fetching users', error);
       }
     );
@@ -112,29 +110,29 @@ export class RegisterpageComponent implements OnInit {
       if (this.userId) {
         this.userService.updateUser(this.userId, formData).subscribe(
           response => {
-            this.toastr.success('Usuario actualizado', 'Éxito');
+            this.snackBar.open('Usuario actualizado', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
             this.userId = ''; // Limpiar ID después de la actualización
             this.vehicleForm.reset(); // Limpiar el formulario
           },
           error => {
-            this.toastr.error('Error al actualizar usuario', 'Error');
+            this.snackBar.open('Error al actualizar usuario', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
             console.error('Error al actualizar usuario:', error);
           }
         );
       } else {
         this.userService.registerUser(formData).subscribe(
           response => {
-            this.toastr.success('Formulario enviado', 'Éxito');
+            this.snackBar.open('Formulario enviado', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
             this.vehicleForm.reset(); // Limpiar el formulario después del registro
           },
           error => {
-            this.toastr.error('Error al registrar usuario', 'Error');
+            this.snackBar.open('Error al registrar usuario', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
             console.error('Error al registrar usuario:', error);
           }
         );
       }
     } else {
-      this.toastr.warning('Por favor, complete todos los campos requeridos.', 'Advertencia');
+      this.snackBar.open('Por favor, complete todos los campos requeridos.', 'Close', { duration: 3000, panelClass: ['warning-snackbar'] });
     }
   }
 
@@ -142,17 +140,17 @@ export class RegisterpageComponent implements OnInit {
     if (this.userId) {
       this.userService.deleteUser(this.userId).subscribe(
         response => {
-          this.toastr.success('Usuario eliminado', 'Éxito');
+          this.snackBar.open('Usuario eliminado', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
           this.userId = ''; // Limpiar ID después de la eliminación
           this.vehicleForm.reset(); // Limpiar el formulario
         },
         error => {
-          this.toastr.error('Error al eliminar usuario', 'Error');
+          this.snackBar.open('Error al eliminar usuario', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
           console.error('Error al eliminar usuario:', error);
         }
       );
     } else {
-      this.toastr.warning('ID de usuario no especificado.', 'Advertencia');
+      this.snackBar.open('ID de usuario no especificado.', 'Close', { duration: 3000, panelClass: ['warning-snackbar'] });
     }
   }
 
@@ -167,17 +165,17 @@ export class RegisterpageComponent implements OnInit {
       const formData = this.vehicleForm.value;
       this.userService.updateUser(this.userId, formData).subscribe(
         response => {
-          this.toastr.success('Usuario actualizado', 'Éxito');
+          this.snackBar.open('Usuario actualizado', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
           this.userId = ''; // Limpiar ID después de la actualización
           this.vehicleForm.reset(); // Limpiar el formulario
         },
         error => {
-          this.toastr.error('Error al actualizar usuario', 'Error');
+          this.snackBar.open('Error al actualizar usuario', 'Close', { duration: 3000, panelClass: ['error-snackbar'] });
           console.error('Error al actualizar usuario:', error);
         }
       );
     } else {
-      this.toastr.warning('ID de usuario no especificado para actualización.', 'Advertencia');
+      this.snackBar.open('ID de usuario no especificado para actualización.', 'Close', { duration: 3000, panelClass: ['warning-snackbar'] });
     }
   }
 
