@@ -1,39 +1,33 @@
-// vehicle.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
-import { Vehiculo } from '../interfaces/vehiculo'; 
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleService {
-  private baseUrl = 'http://localhost:3000/vehicleRoutes'; // Adjust URL if needed
+  private apiUrl = 'http://localhost:3000/vehicleRoutes'; // Actualiza con la URL correcta
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  addVehicle(vehiculo: Vehiculo): Observable<Vehiculo> {
-    return this.http.post<Vehiculo>(`${this.baseUrl}/add`, vehiculo).pipe(
-      catchError((error) => {
-        console.error('Error al insertar el vehículo:', error);
-        return throwError(error);
-      })
-    );
-  }
- 
-  updateVehicle(id: number, vehicle: Vehiculo): Observable<Vehiculo> {
-    return this.http.put<Vehiculo>(`${this.baseUrl}/${id}`, vehicle);
+  registerVehicle(vehicle: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/add`, vehicle);
   }
 
-  deleteVehicle(id: number): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${this.baseUrl}/${id}`);
+  updateVehicle(id: string, vehicle: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/unadd${id}`, vehicle);
   }
 
-  getAllVehicles(): Observable<Vehiculo[]> {
-    return this.http.get<Vehiculo[]>(this.baseUrl);
+  deleteVehicle(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/delete/${id}`);
   }
 
-  getVehicleById(id: number): Observable<Vehiculo> {
-    return this.http.get<Vehiculo>(`${this.baseUrl}/${id}`);
+  getAllVehicles(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  searchVehicle(id: string): Observable<any[]> {
+    const params = new HttpParams().set('id', id);
+    return this.http.post<any[]>(`${this.apiUrl}/search`, { id });
   }
 }

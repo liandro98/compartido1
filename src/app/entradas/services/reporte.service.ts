@@ -1,24 +1,40 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { reporte } from '../interfaces/reporte'; // Asegúrate de importar la interfaz correctamente
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { environments } from '../../../environments/environments';
+import { Reporte } from '../interfaces/reporte';
 
 @Injectable({
   providedIn: 'root'
 })
-export class reporteService {
+export class ReporteService {
+  private baseUrl: string = environments.baseUrl;
 
-  private apiUrl = 'http://localhost:3000/reportes'; // Cambia la URL según tu configuración
+  constructor(private httpClient: HttpClient) { }
 
-  constructor(private http: HttpClient) { }
-
-  generarReporte(reporte: reporte): Observable<any> {
-    return this.http.post(`${this.apiUrl}/`, reporte);
+  getReportes(): Observable<Reporte[]> {
+    return this.httpClient.get<Reporte[]>(`${this.baseUrl}/reportes`)
+      .pipe(catchError(() => of([])));
   }
 
-  exportarPDF(reporteId: number): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/exportar/pdf/${reporteId}`, { responseType: 'blob' });
+  getReporteById(id: number): Observable<Reporte | undefined> {
+    return this.httpClient.get<Reporte>(`${this.baseUrl}/reportes/${id}`)
+      .pipe(catchError(() => of(undefined)));
   }
 
- 
+  addReporte(reporte: Reporte): Observable<Reporte> {
+    return this.httpClient.post<Reporte>(`${this.baseUrl}/reportes`, reporte)
+      .pipe(catchError(() => of(undefined as any)));
+  }
+
+  updateReporte(reporte: Reporte): Observable<Reporte> {
+    return this.httpClient.put<Reporte>(`${this.baseUrl}/reportes/${reporte.idReporte}`, reporte)
+      .pipe(catchError(() => of(undefined as any)));
+  }
+
+  deleteReporteById(id: number): Observable<boolean> {
+    return this.httpClient.delete(`${this.baseUrl}/reportes/${id}`)
+      .pipe(catchError(() => of(false)), map(() => true));
+  }
 }
