@@ -22,11 +22,9 @@ import { NgModule } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
-import { MessageService } from 'primeng/api';
 import { AppComponent } from '../app.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -65,11 +63,9 @@ import { ToastrModule } from 'ngx-toastr';
     MatNativeDateModule,
     MatButtonModule, 
     MatDatepickerModule,
-    ToastrModule,
     MatDatepickerModule
     
   ],
-  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class MaterialModule { }
