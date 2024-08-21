@@ -34,4 +34,8 @@ export class UserService {
   getAllUsers(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.apiUrl + '/all');
   }
+
+  searchUserByBarcode(barcode: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/barcode/${barcode}`,);
+  }
 }

@@ -7,5 +7,6 @@ export interface Usuario {
   birthDate?: string; // Opcional para estudiantes
   career?: string; // Opcional para profesores
   groupo?: string; // Opcional para profesores
+  codigo?:string;
   // Agrega aquí otros campos específicos si es necesario
 }

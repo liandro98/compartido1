@@ -44,13 +44,15 @@ export class RegistropageComponent {
 
     this.userService.validateUser(user, contrasena).subscribe(
       (res: Log) => {
+        console.log(res)
+        sessionStorage.setItem('user', JSON.stringify(res['user']));
         if (res.TipoUsuario === 'Administrador') {
           this.router.navigate(['/admin/registro']); // Redirige al dashboard del administrador
         } else if (res.TipoUsuario === 'Empleado') {
           this.router.navigate(['/entradas/list']); // Redirige al dashboard del empleado
         } else {
           // Manejo de otros tipos de usuarios si aplica
-          alert('Tipo de usuario no reconocido.');
+          this.router.navigate(['/entradas/perfil']);
         }
       },
       (error) => {
