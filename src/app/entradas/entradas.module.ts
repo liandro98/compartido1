@@ -11,6 +11,7 @@ import { MaterialModule } from '../material/material.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HelpComponent } from './pages/help/help.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegistroProveedorpageComponent } from './pages/registro-proveedorpage/registro-proveedorpage.component';

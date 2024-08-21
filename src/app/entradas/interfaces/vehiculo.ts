@@ -1,10 +1,10 @@
-// vehicle.interface.ts
-export interface Vehiculo {
-  TipoVehiculo: string;
-  idVehiculo: number;
-  idUsuario: number;
-  Placa: string;
-  Marca: string;
-  Modelo: string;
-  Descripcion?: string;
+export interface Vehicle {
+  id?: string;
+  vehicleType: 'car' | 'motorcycle' | 'bicycle';
+  brand?: string;
+  model?: string;
+  licensePlate?: string;
+  color?: string;
+  description?: string;
+  registrationDate: string;
 }

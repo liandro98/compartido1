@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-import { reporteService} from '../../services/reporte.service';  // Asegúrate de importar el servicio correctamente
-import { reporte } from '../../interfaces/reporte'; 
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-dailypage',
@@ -34,59 +32,68 @@ import { reporte } from '../../interfaces/reporte';
 
   `
 })
-export class DailypageComponent {
-  
-  reporte: reporte = {
-    fecha: '',
-    totalVehiculos: 0,
-    ingresosTotales: 0,
-    tiempoPromedio: 0,
-    eventosImportantes: '',
-    observaciones: ''
-  };
+export class DailypageComponent implements OnInit {
+  fecha: string = '';
+  totalVehiculos: number = 0;
+  ingresosTotales: number = 0;
+  tiempoPromedio: number = 0;
+  eventosImportantes: string = '';
+  observaciones: string = '';
 
-  constructor(private reporteService: reporteService) {}
+  ngOnInit() {
+    this.generarDatosReporte();
+  }
+
+  generarDatosReporte() {
+    const hoy = new Date();
+    this.fecha = hoy.toISOString().substring(0, 10);
+    this.totalVehiculos = Math.floor(Math.random() * 10); // Ejemplo de generación automática
+    this.ingresosTotales = this.totalVehiculos * 10; // Ejemplo de cálculo de ingresos
+    this.tiempoPromedio = Math.floor(Math.random() * 12); // Ejemplo de generación automática
+    this.eventosImportantes = 'Ningún evento importante'; // Ejemplo de texto predeterminado
+    this.observaciones = 'Sin observaciones'; // Ejemplo de texto predeterminado
+  }
 
   generarReporte() {
-    this.reporteService.generarReporte(this.reporte).subscribe(
-      response => {
-        console.log('Reporte generado exitosamente:', response);
-        // Manejar la respuesta del servidor, mostrar notificaciones, etc.
-      },
-      error => {
-        console.error('Error al generar el reporte:', error);
-        // Manejar el error, mostrar notificaciones, etc.
-      }
-    );
+    const reporte = {
+      fecha: this.fecha,
+      totalVehiculos: this.totalVehiculos,
+      ingresosTotales: this.ingresosTotales,
+      tiempoPromedio: this.tiempoPromedio,
+      eventosImportantes: this.eventosImportantes,
+      observaciones: this.observaciones
+    };
+
+    console.log('Reporte generado:', reporte);
+    alert('Reporte generado exitosamente');
   }
 
   exportarPDF() {
-    // Aquí deberías manejar el ID del reporte que quieres exportar
-    this.reporteService.exportarPDF(1).subscribe(
-      response => {
-        const url = window.URL.createObjectURL(response);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'reporte.pdf';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      },
-      error => {
-        console.error('Error al exportar el reporte en PDF:', error);
-      }
-    );
+    window.print();
   }
 
-  cancelar() {
-    // Aquí puedes limpiar el formulario o redirigir a otro componente
-    this.reporte = {
-      fecha: '',
-      totalVehiculos: 0,
-      ingresosTotales: 0,
-      tiempoPromedio: 0,
-      eventosImportantes: '',
-      observaciones: ''
+  exportarExcel() {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Reporte Diario',
+      useBom: true,
+      noDownload: false,
+      headers: ["Fecha", "Total de Vehículos Estacionados", "Ingresos Totales", "Tiempo Promedio de Estacionamiento", "Eventos Importantes", "Observaciones"]
     };
+    
+    const data = [
+      {
+        Fecha: this.fecha,
+        "Total de Vehículos Estacionados": this.totalVehiculos,
+        "Ingresos Totales": this.ingresosTotales,
+        "Tiempo Promedio de Estacionamiento": this.tiempoPromedio,
+        "Eventos Importantes": this.eventosImportantes,
+        Observaciones: this.observaciones
+      }
+    ];
   }
 }
