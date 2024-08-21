@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SupplierService } from '../../services/supplier-service.service';
 import { Supplier } from '../../interfaces/supplier'; 
+import { MatSnackBar } from '@angular/material/snack-bar'; // Importar MatSnackBar
 
 @Component({
   selector: 'app-registro-proveedorpage',
@@ -44,7 +45,11 @@ import { Supplier } from '../../interfaces/supplier';
 export class RegistroProveedorpageComponent implements OnInit {
   supplierForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private supplierService: SupplierService) {}
+  constructor(
+    private fb: FormBuilder,
+    private supplierService: SupplierService,
+    private snackBar: MatSnackBar // Inyectar MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -62,11 +67,10 @@ export class RegistroProveedorpageComponent implements OnInit {
 
   onSubmit(): void {
     if (this.supplierForm.valid) {
-      // Asignar los valores del formulario al objeto formData
       const formData: Supplier = {
         userType: 'Proveedor',
-        idUsuario: '', // Dejar vacío si se generará automáticamente o asignar el valor si ya se tiene
-        email: '', // El email puede ser vacío o nulo
+        idUsuario: '',
+        email: '',
         fullName: this.supplierForm.get('providerName')?.value,
         model: this.supplierForm.get('model')?.value,
         plates: this.supplierForm.get('plates')?.value,
@@ -74,21 +78,18 @@ export class RegistroProveedorpageComponent implements OnInit {
         providerName: this.supplierForm.get('providerName')?.value,
         officialId: this.supplierForm.get('officialId')?.value
       };
-  
+
       this.supplierService.registerSupplier(formData).subscribe(
         response => {
-          console.log('Registro exitoso:', response);
-          alert('Proveedor registrado con éxito');
+          this.snackBar.open('Proveedor registrado con éxito', 'Cerrar', { panelClass: ['success-snackbar'] });
           this.supplierForm.reset(); // Limpiar el formulario después del registro
         },
         error => {
-          console.error('Error al registrar proveedor:', error);
-          alert('Error al registrar proveedor');
+          this.snackBar.open('Error al registrar proveedor', 'Cerrar', { panelClass: ['error-snackbar'] });
         }
       );
     } else {
-      alert('Por favor, complete todos los campos requeridos.');
+      this.snackBar.open('Por favor, complete todos los campos requeridos.', 'Cerrar', { panelClass: ['error-snackbar'] });
     }
   }
-  
 }

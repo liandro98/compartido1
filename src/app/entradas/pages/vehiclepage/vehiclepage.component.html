@@ -1,92 +1,65 @@
 <div class="container">
-  <h1 style="color: black;">Registro de Vehículo</h1>
+  <h1>Vehicle Management</h1>
   <mat-card>
-    <mat-card-content>
-      <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Tipo de Vehículo</mat-label>
-          <mat-select formControlName="vehicleType" (selectionChange)="onVehicleTypeChange()">
-            <mat-option value="car">Auto</mat-option>
-            <mat-option value="motorcycle">Moto</mat-option>
-            <mat-option value="bicycle">Bicicleta</mat-option>
-          </mat-select>
-        </mat-form-field>
+    <form (ngSubmit)="onSubmit(vehicleForm)" #vehicleForm="ngForm">
 
-        <ng-container [ngSwitch]="selectedVehicleType">
-          <div *ngSwitchCase="'car'">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Marca</mat-label>
-              <input matInput formControlName="brand" required>
+          <!-- Selector de Usuarios -->
+            <mat-form-field >
+              <mat-label>Seleccionar Usuario</mat-label>
+              <mat-select [(ngModel)]="vehicle.idUsuario" name="idUsuario">
+                <mat-option *ngFor="let user of users" [value]="user.idUsuario">
+                 {{user.idUsuario}} - {{ user.Nombre }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Modelo</mat-label>
-              <input matInput formControlName="model" required>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Placa</mat-label>
-              <input matInput formControlName="licensePlate" required>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Color</mat-label>
-              <input matInput formControlName="color" required>
-            </mat-form-field>
-          </div>
-          <div *ngSwitchCase="'motorcycle'">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Marca</mat-label>
-              <input matInput formControlName="brand" required>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Modelo</mat-label>
-              <input matInput formControlName="model" required>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Placa</mat-label>
-              <input matInput formControlName="licensePlate" required>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Color</mat-label>
-              <input matInput formControlName="color" required>
-            </mat-form-field>
-          </div>
-          <div *ngSwitchCase="'bicycle'">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Descripción</mat-label>
-              <input matInput formControlName="description">
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Color</mat-label>
-              <input matInput formControlName="color" required>
-            </mat-form-field>
-          </div>
-        </ng-container>
 
-    
-        <div class="button-container">
-          <button mat-raised-button color="primary" type="submit">Guardar</button>
-          <button mat-raised-button color="warn" type="button" (click)="onDelete()">Eliminar</button>
-          <button mat-raised-button color="accent" type="button" (click)="onSearch()">Buscar</button>
-        </div>
-      </form>
-    </mat-card-content>
+      <mat-form-field>
+        <mat-label>Tipo de Vehículo</mat-label>
+        <mat-select [(ngModel)]="vehicle.TipoVehiculo" name="vehicleType" required (selectionChange)="onVehicleTypeChange($event.value)">
+          <mat-option value="auto">auto</mat-option>
+          <mat-option value="motocicleta">motocicleta</mat-option>
+          <mat-option value="bicicleta">bicicleta</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Marca</mat-label>
+        <input matInput [(ngModel)]="vehicle.Marca" name="Marca" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Modelo</mat-label>
+        <input matInput [(ngModel)]="vehicle.Modelo" name="Modelo" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Placa</mat-label>
+        <input matInput [(ngModel)]="vehicle.Placa" name="Placa">
+      </mat-form-field>
+
+
+      <mat-form-field *ngIf="selectedVehicleType === 'bicicleta'">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput [(ngModel)]="vehicle.Descripcion" name="description" required></textarea>
+      </mat-form-field>
+      
+
+
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit">{{ editing ? 'Update' : 'Add' }}</button>
+      </div>
+    </form>
   </mat-card>
 
   <mat-card>
-    <mat-card-header>
-      <mat-card-title>Vehículos Registrados</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item *ngFor="let vehicle of vehicles">
-          <h3 mat-line>Tipo: {{ vehicle.vehicleType }}</h3>
-          <p mat-line>Marca: {{ vehicle.brand }}</p>
-          <p mat-line>Modelo: {{ vehicle.model }}</p>
-          <p mat-line>Placa: {{ vehicle.licensePlate }}</p>
-          <p mat-line>Color: {{ vehicle.color }}</p>
-          <p mat-line>Descripción: {{ vehicle.description }}</p>
-          <p mat-line>Fecha de Registro: {{ vehicle.registrationDate }}</p>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let veh of vehicles">
+        <div>
+          <strong>{{ veh.Placa }}</strong> - {{ veh.Marca }} - {{ veh.Modelo }}
+          <button mat-button color="accent" (click)="editVehicle(veh.idVehiculo)">Edit</button>
+          <button mat-button color="warn" (click)="deleteVehicle(veh.idVehiculo)">Delete</button>
+        </div>
+      </mat-list-item>
+    </mat-list>
   </mat-card>
 </div>
