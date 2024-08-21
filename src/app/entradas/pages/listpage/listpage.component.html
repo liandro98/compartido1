@@ -18,44 +18,41 @@
 <!-- Parking Spaces Counter -->
 <p class="mat-body-strong">Espacios ocupados: {{ occupiedSpaces }} / {{ maxParkingSpaces }}</p>
 
-<!-- List of parked vehicles with Angular Material table -->
-<h3 class="mat-h3">Vehículos en el Estacionamiento</h3>
+<!-- Input and Button for Adding New Vehicle -->
+<div class="input-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Código de Barras</mat-label>
+    <input matInput [(ngModel)]="barcode" placeholder="Ingrese código de barras">
+  </mat-form-field>
+  <button mat-raised-button color="accent" (click)="addVehicleByBarcode()">Nuevo Vehículo Entrando</button>
+</div>
+
+<!-- List of users with Angular Material table -->
+<h3 class="mat-h3">Usuarios en el Estacionamiento</h3>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <!-- Type Column -->
-  <ng-container matColumnDef="type">
-    <th mat-header-cell *matHeaderCellDef>Tipo de Vehículo</th>
-    <td mat-cell *matCellDef="let vehicle">{{ vehicle.type }}</td>
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+    <td mat-cell *matCellDef="let user">{{ user.name }}</td>
   </ng-container>
 
-  <!-- License Plate Column -->
-  <ng-container matColumnDef="licensePlate">
-    <th mat-header-cell *matHeaderCellDef>Placas</th>
-    <td mat-cell *matCellDef="let vehicle">{{ vehicle.licensePlate }}</td>
+  <!-- User Type Column -->
+  <ng-container matColumnDef="userType">
+    <th mat-header-cell *matHeaderCellDef>Tipo de Usuario</th>
+    <td mat-cell *matCellDef="let user">{{ user.userType }}</td>
   </ng-container>
 
   <!-- Entry Time Column -->
   <ng-container matColumnDef="entryTime">
     <th mat-header-cell *matHeaderCellDef>Hora de Entrada</th>
-    <td mat-cell *matCellDef="let vehicle">{{ vehicle.entryTime | date:'short' }}</td>
-  </ng-container>
-
-  <!-- Exit Time Column -->
-  <ng-container matColumnDef="exitTime">
-    <th mat-header-cell *matHeaderCellDef>Hora de Salida</th>
-    <td mat-cell *matCellDef="let vehicle">{{ vehicle.exitTime ? (vehicle.exitTime | date:'short') : 'Pendiente' }}</td>
-  </ng-container>
-
-  <!-- User Type Column -->
-  <ng-container matColumnDef="userType">
-    <th mat-header-cell *matHeaderCellDef>Estado</th>
-    <td mat-cell *matCellDef="let vehicle">{{ vehicle.userType }}</td>
+    <td mat-cell *matCellDef="let user">{{ user.entryTime | date:'short' }}</td>
   </ng-container>
 
   <!-- Action Column -->
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>Acción</th>
     <td mat-cell *matCellDef="let i = index">
-      <button mat-icon-button color="warn" (click)="vehicleExited(i)">
+      <button mat-icon-button color="warn" (click)="userExited(i)">
         <mat-icon>exit_to_app</mat-icon>
       </button>
     </td>
@@ -64,6 +61,3 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-
-<!-- Button to simulate new vehicle entering -->
-<button mat-raised-button color="accent" (click)="vehicleEntered()">Nuevo Vehículo Entrando</button>

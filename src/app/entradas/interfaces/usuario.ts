@@ -6,5 +6,6 @@ export interface Usuario {
   fullName: string;
   career?: string; // Opcional para profesores
   groupo?: string; // Opcional para profesores
+  codigo?:string;
   // Agrega aquí otros campos específicos si es necesario
 }

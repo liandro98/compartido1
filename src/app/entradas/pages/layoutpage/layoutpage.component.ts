@@ -13,7 +13,6 @@ export class LayoutpageComponent {
     {label:'Registro Proveedor',icon:'add',url: "/entradas/proveedor"},
     {label:'Añadir', icon:'directions_car', url:'./veiculo'},
     {label:'New Usuario',icon:'person_add',url:"./registro"},
-    {label:'cerrar session',icon:'logout',url: "/auth/"}
   ]
   
   openUserMenu() {
@@ -26,5 +25,9 @@ export class LayoutpageComponent {
     console.log("Help icon clicked");
   }
 
+  logOut(){
+    
+    sessionStorage.removeItem('user');
+  }
  
 }
