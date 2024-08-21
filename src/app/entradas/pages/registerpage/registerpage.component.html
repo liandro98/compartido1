@@ -62,7 +62,7 @@
         </mat-form-field>
 
         <div class="button-container">
-          <button mat-raised-button color="primary" type="submit">Registrar</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="vehicleForm.invalid">Registrar</button>
           <button mat-raised-button color="primary" type="button" (click)="onUpdate()" [disabled]="!userId">Actualizar</button>
         </div>
       </form>

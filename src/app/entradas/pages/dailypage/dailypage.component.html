@@ -1,39 +1,44 @@
-<div class="container">
+<div class="reporte-container">
   <mat-card>
-    <mat-card-header>
-      <mat-card-title>Reporte de Fin del Día</mat-card-title>
-    </mat-card-header>
+    <mat-card-title>Reporte de Fin del Día</mat-card-title>
     <mat-card-content>
       <form (ngSubmit)="generarReporte()">
-        <mat-form-field appearance="outline" class="full-width">
+        <mat-form-field appearance="fill">
           <mat-label>Fecha</mat-label>
-          <input matInput type="date" [(ngModel)]="fecha" name="fecha" required>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="reporte.fecha" name="fecha" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Total de Vehículos Estacionados</mat-label>
-          <input matInput type="number" [(ngModel)]="totalVehiculos" name="totalVehiculos" required>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Total de Vehículos</mat-label>
+          <input matInput type="number" [(ngModel)]="reporte.totalVehiculos" name="totalVehiculos" required>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
+
+        <mat-form-field appearance="fill">
           <mat-label>Ingresos Totales</mat-label>
-          <input matInput type="number" [(ngModel)]="ingresosTotales" name="ingresosTotales" required>
+          <input matInput type="number" [(ngModel)]="reporte.ingresosTotales" name="ingresosTotales" required>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Tiempo Promedio de Estacionamiento (minutos)</mat-label>
-          <input matInput type="number" [(ngModel)]="tiempoPromedio" name="tiempoPromedio" required>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Tiempo Promedio de Estancia (minutos)</mat-label>
+          <input matInput type="number" [(ngModel)]="reporte.tiempoPromedio" name="tiempoPromedio" required>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
+
+        <mat-form-field appearance="fill">
           <mat-label>Eventos Importantes</mat-label>
-          <textarea matInput [(ngModel)]="eventosImportantes" name="eventosImportantes" rows="4"></textarea>
+          <textarea matInput [(ngModel)]="reporte.eventosImportantes" name="eventosImportantes"></textarea>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
+
+        <mat-form-field appearance="fill">
           <mat-label>Observaciones</mat-label>
-          <textarea matInput [(ngModel)]="observaciones" name="observaciones" rows="4"></textarea>
+          <textarea matInput [(ngModel)]="reporte.observaciones" name="observaciones"></textarea>
         </mat-form-field>
-        <div class="button-container">
-          <button mat-button color="warn" type="button">Cancelar</button>
+
+        <div class="button-group">
           <button mat-raised-button color="primary" type="submit">Generar Reporte</button>
-          <button mat-raised-button color="accent" type="button" (click)="exportarPDF()">Exportar PDF</button>
-          <button mat-raised-button color="accent" type="button" (click)="exportarExcel()">Exportar Excel</button>
+          <button mat-raised-button color="accent" (click)="exportarPDF()">Exportar PDF</button>
+          <button mat-raised-button color="warn" (click)="cancelar()">Cancelar</button>
         </div>
       </form>
     </mat-card-content>
