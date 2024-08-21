@@ -2,3 +2,95 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import '~ngx-toastr/toastr.css';
+
+/* styles.css o styles.scss */
+
+/* Estilo general para MatSnackBar */
+.mat-snack-bar-container {
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Éxito - Verde */
+  .success-snackbar {
+    background-color: #4caf50; /* Verde oscuro */
+    color: white;
+    border-left: 5px solid #388e3c; /* Verde más oscuro */
+  }
+  
+  /* Error - Rojo */
+  .error-snackbar {
+    background-color: #f44336; /* Rojo */
+    color: white;
+    border-left: 5px solid #d32f2f; /* Rojo más oscuro */
+  }
+  
+  /* Advertencia - Amarillo */
+  .warning-snackbar {
+    background-color: #ff9800; /* Naranja */
+    color: white;
+    border-left: 5px solid #f57c00; /* Naranja más oscuro */
+  }
+  
+  /* Información - Azul */
+  .info-snackbar {
+    background-color: #2196f3; /* Azul */
+    color: white;
+    border-left: 5px solid #1976d2; /* Azul más oscuro */
+  }
+/* Ejemplo de adición de iconos */
+.success-snackbar::before {
+    content: url('/assets/icons/success.svg');
+    margin-right: 8px;
+  }
+  
+  .error-snackbar::before {
+    content: url('/assets/icons/error.svg');
+    margin-right: 8px;
+  }
+  
+  .warning-snackbar::before {
+    content: url('/assets/icons/warning.svg');
+    margin-right: 8px;
+  }
+  
+  .info-snackbar::before {
+    content: url('/assets/icons/info.svg');
+    margin-right: 8px;
+  }
+    
+  /* styles.css o styles.scss */
+
+/* Error Snackbar */
+.error-snackbar {
+    background-color: #f44336; /* Rojo */
+    color: white;
+    border-left: 5px solid #d32f2f; /* Rojo más oscuro */
+  }
+  
+  /* Success Snackbar */
+  .success-snackbar {
+    background-color: #4caf50; /* Verde oscuro */
+    color: white;
+    border-left: 5px solid #388e3c; /* Verde más oscuro */
+  }
+  
+  /* styles.css o styles.scss */
+
+/* Error Snackbar */
+.error-snackbar {
+    background-color: #f44336; /* Rojo */
+    color: white;
+    border-left: 5px solid #d32f2f; /* Rojo más oscuro */
+  }
+  
+  /* Success Snackbar */
+  .success-snackbar {
+    background-color: #4caf50; /* Verde oscuro */
+    color: white;
+    border-left: 5px solid #388e3c; /* Verde más oscuro */
+  }
+  

@@ -1,7 +1,8 @@
-export interface Reporte {
-    idReporte?: number; // Optional for update operations
-    fecha: Date;
-    totalEntradas: number;
-    totalSalidas: number;
-  }
-  
+export interface reporte {
+  fecha: string;
+  totalVehiculos: number;
+  ingresosTotales: number;
+  tiempoPromedio: number;
+  eventosImportantes: string;
+  observaciones: string;
+}
