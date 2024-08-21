@@ -9,6 +9,12 @@
           <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
           {{item.label}}
         </mat-list-item>
+        <mat-list-item routerLink="/auth/" (click)="sidenav.toggle(); logOut();">
+          <mat-icon matListItemIcon>
+            logout
+          </mat-icon>
+          Cerrar Sesion
+        </mat-list-item>
       </mat-nav-list>
     </mat-sidenav>
   
