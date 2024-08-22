@@ -69,8 +69,8 @@ export class RegisterpageComponent implements OnInit {
       controlNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Validación para solo números
       email: ['', [Validators.required, Validators.email]],
       fullName: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')]], // Validación para solo letras y espacios
-      career: [''],
-      groupo: ['']
+      career: ['', Validators.required],
+      groupo: ['',Validators.required]
     });
   }
   
@@ -88,6 +88,8 @@ export class RegisterpageComponent implements OnInit {
       this.vehicleForm.addControl('career', this.fb.control('', Validators.required));
       this.vehicleForm.addControl('groupo', this.fb.control('', Validators.required));
     } else if (userType === 'Profesor') {
+      this.vehicleForm.removeControl('career')
+      this.vehicleForm.removeControl('groupo')
       // Código específico para Profesor (si aplica)
     }
   }
