@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from '../../services/vehiculo.service';
 import { Vehiculo } from '../../interfaces/vehiculo';
-import { FormBuilder, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserService } from '../../services/usuario.service';
-import { Usuario } from '../../interfaces/usuario'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -44,15 +43,13 @@ export class VehiclepageComponent implements OnInit {
   editing: boolean = false;
   currentId: number | null = null;
   selectedVehicleType: string = '';
-  idVehiculo: Vehiculo [] = [];
   users: any[] = []; // Para almacenar usuarios encontrados
 
   constructor(
-    private fb: FormBuilder,
     private vehicleService: VehicleService,
     private userService: UserService,
-    private snackBar: MatSnackBar // Inyectar MatSnackBar
-  ) { }
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -70,8 +67,11 @@ export class VehiclepageComponent implements OnInit {
   onVehicleTypeChange(type: string): void {
     this.selectedVehicleType = type;
     
-    if (type !== 'bicicleta') {
-      this.vehicle.Descripcion = '';
+    // Resetea los campos si se selecciona "bicicleta"
+    if (type === 'bicicleta') {
+      this.vehicle.Marca = '';
+      this.vehicle.Modelo = '';
+      this.vehicle.Placa = '';
     }
   }
   
@@ -123,7 +123,7 @@ export class VehiclepageComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.vehicle = { idUsuario: 0, TipoVehiculo: '', Marca: '', Modelo: '', Placa: '', Descripcion: '',idVehiculo:0};
+    this.vehicle = { idUsuario: 0, TipoVehiculo: '', Marca: '', Modelo: '', Placa: '', Descripcion: '', idVehiculo: 0 };
     this.editing = false;
     this.currentId = null;
     this.selectedVehicleType = '';

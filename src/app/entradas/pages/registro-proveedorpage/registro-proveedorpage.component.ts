@@ -57,13 +57,14 @@ export class RegistroProveedorpageComponent implements OnInit {
 
   createForm(): void {
     this.supplierForm = this.fb.group({
-      model: ['', Validators.required],
-      plates: ['', Validators.required],
-      companyName: ['', Validators.required],
-      providerName: ['', Validators.required],
-      officialId: ['', Validators.required]
+      model: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9\\s]+$')]], // Letras, números y espacios
+      plates: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]], // Solo letras y números
+      companyName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]], // Solo letras y espacios
+      providerName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]], // Solo letras y espacios
+      officialId: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]] // Solo letras y números
     });
   }
+  
 
   onSubmit(): void {
     if (this.supplierForm.valid) {

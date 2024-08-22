@@ -62,17 +62,18 @@ export class RegisterpageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private snackBar: MatSnackBar // Changed to MatSnackBar
+    private snackBar: MatSnackBar
   ) {
     this.vehicleForm = this.fb.group({
       userType: ['', Validators.required],
-      controlNumber: ['', Validators.required],
-      email: ['', Validators.required],
-      fullName: ['', Validators.required],
+      controlNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Validación para solo números
+      email: ['', [Validators.required, Validators.email]],
+      fullName: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$')]], // Validación para solo letras y espacios
       career: [''],
       groupo: ['']
     });
   }
+  
 
   ngOnInit(): void {
     this.onUserTypeChange();
@@ -122,7 +123,7 @@ export class RegisterpageComponent implements OnInit {
       } else {
         this.userService.registerUser(formData).subscribe(
           response => {
-            this.snackBar.open('Formulario enviado', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
+            this.snackBar.open('Usuario Registrado', 'Close', { duration: 3000, panelClass: ['success-snackbar'] });
             this.vehicleForm.reset(); // Limpiar el formulario después del registro
           },
           error => {

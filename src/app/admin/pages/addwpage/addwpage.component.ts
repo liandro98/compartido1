@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { EmpleadoService } from '../../../entradas/services/empleado.service';
 import { Empleado } from '../../../entradas/interfaces/empleado';
 import { MatSelectChange } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-addwpage',
@@ -40,15 +41,16 @@ export class AddwpageComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private empleadosService: EmpleadoService
+    private empleadosService: EmpleadoService,
+    private snackBar: MatSnackBar
   ) {
     this.workerForm = this.fb.group({
       employeeId: [''], // Clave del trabajador
-      fullName: ['', Validators.required], // Nombre completo
+      fullName: ['', [Validators.required, this.lettersAndSpacesValidator]], // Nombre completo
       email: ['', [Validators.required, Validators.email]], // Correo electrónico
-      Contrasena: ['', Validators.required], // Contraseña
-      department: ['', Validators.required], // Departamento
-      position: ['', Validators.required] // Puesto
+      Contrasena: ['', [Validators.required, Validators.minLength(8), this.passwordValidator]], // Contraseña
+      department: ['', [Validators.required, this.lettersAndSpacesValidator]], // Departamento
+      position: ['', [Validators.required, this.lettersAndSpacesValidator]] // Puesto
     });
   }
 
@@ -63,6 +65,7 @@ export class AddwpageComponent implements OnInit {
       },
       (err) => {
         console.error('Error al obtener trabajadores:', err);
+        this.snackBar.open('Error al obtener trabajadores.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
       }
     );
   }
@@ -72,7 +75,7 @@ export class AddwpageComponent implements OnInit {
     this.workerForm.patchValue({
       employeeId: this.selectedEmployee.idEmpleado,
       fullName: this.selectedEmployee.Nombre,
-      Contrasena:this.selectedEmployee.Contrasena,
+      Contrasena: this.selectedEmployee.Contrasena,
       email: this.selectedEmployee.CorreoElectronico,
       department: this.selectedEmployee.Departamento,
       position: this.selectedEmployee.Cargo
@@ -96,29 +99,29 @@ export class AddwpageComponent implements OnInit {
         // Actualizar empleado existente
         this.empleadosService.updateTrabajador(this.selectedEmployee.idEmpleado!, empleado).subscribe(
           (res) => {
-            alert('Empleado actualizado exitosamente');
+            this.snackBar.open('Empleado actualizado exitosamente.', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
             this.resetForm();
           },
           (err) => {
             console.error('Error al actualizar empleado:', err);
-            alert('Error al actualizar empleado');
+            this.snackBar.open('Error al actualizar empleado.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
           }
         );
       } else {
         // Agregar nuevo empleado
         this.empleadosService.addTrabajador(empleado).subscribe(
           (res) => {
-            alert('Empleado agregado exitosamente');
+            this.snackBar.open('Empleado agregado exitosamente.', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
             this.resetForm();
           },
           (err) => {
             console.error('Error al agregar empleado:', err);
-            alert('Error al agregar empleado');
+            this.snackBar.open('Error al agregar empleado.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
           }
         );
       }
     } else {
-      alert('Por favor completa el formulario correctamente.');
+      this.snackBar.open('Por favor completa el formulario correctamente.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
     }
   }
 
@@ -126,20 +129,42 @@ export class AddwpageComponent implements OnInit {
     if (this.selectedEmployee) {
       this.empleadosService.deleteTrabajador(this.selectedEmployee.idEmpleado!).subscribe(
         (res) => {
-          alert('Empleado eliminado exitosamente');
+          this.snackBar.open('Empleado eliminado exitosamente.', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
           this.resetForm();
         },
         (err) => {
           console.error('Error al eliminar empleado:', err);
-          alert('Error al eliminar empleado');
+          this.snackBar.open('Error al eliminar empleado.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
         }
       );
+    } else {
+      this.snackBar.open('Selecciona un empleado para eliminar.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
     }
   }
 
   resetForm(): void {
     this.selectedEmployee = null;
     this.workerForm.reset();
-    this.getWorkers()
+    this.getWorkers();
+  }
+
+  // Validador personalizado para contraseñas
+  passwordValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const password = control.value;
+    if (!password) return null;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+    return isValid ? null : { weakPassword: true };
+  }
+
+  // Validador personalizado para solo letras y espacios
+  lettersAndSpacesValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const value = control.value;
+    if (!value) return null;
+    const isValid = /^[A-Za-z\s]+$/.test(value);
+    return isValid ? null : { invalidFormat: true };
   }
 }
