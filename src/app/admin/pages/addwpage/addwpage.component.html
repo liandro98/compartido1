@@ -26,6 +26,9 @@
         <mat-error *ngIf="workerForm.get('fullName')?.hasError('required')">
           El nombre completo es requerido.
         </mat-error>
+        <mat-error *ngIf="workerForm.get('fullName')?.hasError('invalidFormat')">
+          Solo se permiten letras y espacios.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -45,6 +48,9 @@
         <mat-error *ngIf="workerForm.get('Contrasena')?.hasError('required')">
           La contraseña es requerida.
         </mat-error>
+        <mat-error *ngIf="workerForm.get('Contrasena')?.hasError('weakPassword')">
+          La contraseña debe tener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -53,6 +59,9 @@
         <mat-error *ngIf="workerForm.get('department')?.hasError('required')">
           El departamento es requerido.
         </mat-error>
+        <mat-error *ngIf="workerForm.get('department')?.hasError('invalidFormat')">
+          Solo se permiten letras y espacios.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -60,6 +69,9 @@
         <input matInput formControlName="position" required>
         <mat-error *ngIf="workerForm.get('position')?.hasError('required')">
           El puesto es requerido.
+        </mat-error>
+        <mat-error *ngIf="workerForm.get('position')?.hasError('invalidFormat')">
+          Solo se permiten letras y espacios.
         </mat-error>
       </mat-form-field>
 

@@ -1,52 +1,72 @@
 <div class="container">
-  <h1>Vehicle Management</h1>
+  <h1>Gestión de Vehículos</h1>
   <mat-card>
     <form (ngSubmit)="onSubmit(vehicleForm)" #vehicleForm="ngForm">
+      
+      <!-- Selector de Usuarios -->
+      <mat-form-field>
+        <mat-label>Seleccionar Usuario</mat-label>
+        <mat-select [(ngModel)]="vehicle.idUsuario" name="idUsuario" required>
+          <mat-option *ngFor="let user of users" [value]="user.idUsuario">
+            {{user.idUsuario}} - {{ user.Nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="vehicleForm.controls['idUsuario']?.invalid && vehicleForm.controls['idUsuario']?.touched">
+          Es necesario seleccionar un usuario.
+        </mat-error>
+      </mat-form-field>
 
-          <!-- Selector de Usuarios -->
-            <mat-form-field >
-              <mat-label>Seleccionar Usuario</mat-label>
-              <mat-select [(ngModel)]="vehicle.idUsuario" name="idUsuario">
-                <mat-option *ngFor="let user of users" [value]="user.idUsuario">
-                 {{user.idUsuario}} - {{ user.Nombre }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-
+      <!-- Tipo de Vehículo -->
       <mat-form-field>
         <mat-label>Tipo de Vehículo</mat-label>
         <mat-select [(ngModel)]="vehicle.TipoVehiculo" name="vehicleType" required (selectionChange)="onVehicleTypeChange($event.value)">
-          <mat-option value="auto">auto</mat-option>
-          <mat-option value="motocicleta">motocicleta</mat-option>
-          <mat-option value="bicicleta">bicicleta</mat-option>
+          <mat-option value="auto">Auto</mat-option>
+          <mat-option value="motocicleta">Motocicleta</mat-option>
+          <mat-option value="bicicleta">Bicicleta</mat-option>
         </mat-select>
+        <mat-error *ngIf="vehicleForm.controls['vehicleType']?.invalid && vehicleForm.controls['vehicleType']?.touched">
+          Es necesario seleccionar un tipo de vehículo.
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
+      <!-- Marca -->
+      <mat-form-field *ngIf="selectedVehicleType !== 'bicicleta'">
         <mat-label>Marca</mat-label>
-        <input matInput [(ngModel)]="vehicle.Marca" name="Marca" required>
+        <input matInput [(ngModel)]="vehicle.Marca" name="Marca" required minlength="2" maxlength="50">
+        <mat-error *ngIf="vehicleForm.controls['Marca']?.invalid && vehicleForm.controls['Marca']?.touched">
+          La marca es obligatoria y debe tener entre 2 y 50 caracteres.
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
+      <!-- Modelo -->
+      <mat-form-field *ngIf="selectedVehicleType !== 'bicicleta'">
         <mat-label>Modelo</mat-label>
-        <input matInput [(ngModel)]="vehicle.Modelo" name="Modelo" required>
+        <input matInput [(ngModel)]="vehicle.Modelo" name="Modelo" required minlength="2" maxlength="50">
+        <mat-error *ngIf="vehicleForm.controls['Modelo']?.invalid && vehicleForm.controls['Modelo']?.touched">
+          El modelo es obligatorio y debe tener entre 2 y 50 caracteres.
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
+      <!-- Placa -->
+      <mat-form-field *ngIf="selectedVehicleType !== 'bicicleta'">
         <mat-label>Placa</mat-label>
-        <input matInput [(ngModel)]="vehicle.Placa" name="Placa">
+        <input matInput [(ngModel)]="vehicle.Placa" name="Placa" required pattern="^[A-Za-z0-9\-+]{6,9}$">
+        <mat-error *ngIf="vehicleForm.controls['Placa']?.invalid && vehicleForm.controls['Placa']?.touched">
+          La placa debe ser alfanumérica y puede incluir guiones (-) o signos más (+), con una longitud de 6 a 7 caracteres.
+        </mat-error>
       </mat-form-field>
 
-
+      <!-- Descripción para Bicicleta -->
       <mat-form-field *ngIf="selectedVehicleType === 'bicicleta'">
         <mat-label>Descripción</mat-label>
-        <textarea matInput [(ngModel)]="vehicle.Descripcion" name="description" required></textarea>
+        <textarea matInput [(ngModel)]="vehicle.Descripcion" name="description" required minlength="5" maxlength="200"></textarea>
+        <mat-error *ngIf="vehicleForm.controls['description']?.invalid && vehicleForm.controls['description']?.touched">
+          La descripción es obligatoria y debe tener entre 5 y 200 caracteres.
+        </mat-error>
       </mat-form-field>
-      
-
 
       <div class="button-container">
-        <button mat-raised-button color="primary" type="submit">{{ editing ? 'Update' : 'Add' }}</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="vehicleForm.invalid">{{ editing ? 'Actualizar' : 'Agregar' }}</button>
       </div>
     </form>
   </mat-card>
@@ -55,9 +75,9 @@
     <mat-list>
       <mat-list-item *ngFor="let veh of vehicles">
         <div>
-          <strong>{{ veh.Placa }}</strong> - {{ veh.Marca }} - {{ veh.Modelo }}
-          <button mat-button color="accent" (click)="editVehicle(veh.idVehiculo)">Edit</button>
-          <button mat-button color="warn" (click)="deleteVehicle(veh.idVehiculo)">Delete</button>
+          <strong>{{ veh.Placa }}</strong> - {{ veh.Marca }} - {{ veh.Modelo }} - {{ veh.Descripcion}}
+          <button mat-button color="accent" (click)="editVehicle(veh.idVehiculo)">Editar</button>
+          <button mat-button color="warn" (click)="deleteVehicle(veh.idVehiculo)">Eliminar</button>
         </div>
       </mat-list-item>
     </mat-list>

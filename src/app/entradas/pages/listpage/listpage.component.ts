@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserService } from '../../services/usuario.service'; // Ajusta la ruta según sea necesario
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-listpage',
@@ -37,7 +38,10 @@ export class ListpageComponent implements OnInit {
   displayedColumns: string[] = ['name', 'userType', 'entryTime', 'action'];
   dataSource = new MatTableDataSource<any>(this.users);
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.updateOccupiedSpaces();
@@ -47,12 +51,10 @@ export class ListpageComponent implements OnInit {
     if (this.barcode.trim()) {
       this.userService.searchUserByBarcode(this.barcode).subscribe(user => {
         if (user) {
-          console.log(user)
           this.addUserToParking(user);
           this.barcode = ''; // Limpiar el campo de entrada
         } else {
-          // Manejar el caso donde el usuario no se encuentra
-          console.error('Usuario no encontrado');
+          this.snackBar.open('Usuario no encontrado', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
         }
       });
     }
@@ -66,12 +68,15 @@ export class ListpageComponent implements OnInit {
       entryTime: new Date()
     });
     this.updateOccupiedSpaces();
+    this.snackBar.open(`Vehículo ${user.nombre} ha entrado al estacionamiento`, 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
   }
 
   userExited(index: number) {
+    const exitedUser = this.users[index];
     // Simular la salida de un usuario del estacionamiento
     this.users.splice(index, 1); // Eliminar usuario del arreglo
     this.updateOccupiedSpaces();
+    this.snackBar.open(`Vehículo ${exitedUser.name} ha salido del estacionamiento`, 'Cerrar', { duration: 3000, panelClass: ['info-snackbar'] });
   }
 
   updateOccupiedSpaces() {
@@ -87,16 +92,4 @@ export class ListpageComponent implements OnInit {
     // Implementar lógica para filtrar el arreglo parkedVehicles basado en startDate y endDate
     // Esto es solo un marcador, la implementación real dependerá de tu backend o fuente de datos
   }
-
-  // vehicleEntered() {
-  //   // Simular la entrada de un nuevo vehículo al estacionamiento
-  //   this.parkedVehicles.push({ type: 'Nuevo Vehículo', licensePlate: 'ZZZ-9999', entryTime: new Date(), exitTime: null, userType: 'Proveedor' });
-  //   this.updateOccupiedSpaces();
-  // }
-
-  // vehicleExited(index: number) {
-  //   // Simular la salida de un vehículo del estacionamiento
-  //   this.parkedVehicles.splice(index, 1); // Eliminar vehículo del arreglo
-  //   this.updateOccupiedSpaces();
-  // }
 }
