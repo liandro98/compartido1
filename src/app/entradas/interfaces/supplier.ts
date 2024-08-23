@@ -7,5 +7,4 @@ export interface Supplier {
   plates: string;
   companyName: string;
   providerName: string;
-  officialId: string;
 }

@@ -61,7 +61,6 @@ export class RegistroProveedorpageComponent implements OnInit {
       plates: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]], // Solo letras y números
       companyName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]], // Solo letras y espacios
       providerName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]], // Solo letras y espacios
-      officialId: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]] // Solo letras y números
     });
   }
   
@@ -76,8 +75,7 @@ export class RegistroProveedorpageComponent implements OnInit {
         model: this.supplierForm.get('model')?.value,
         plates: this.supplierForm.get('plates')?.value,
         companyName: this.supplierForm.get('companyName')?.value,
-        providerName: this.supplierForm.get('providerName')?.value,
-        officialId: this.supplierForm.get('officialId')?.value
+        providerName: this.supplierForm.get('providerName')?.value
       };
 
       this.supplierService.registerSupplier(formData).subscribe(
