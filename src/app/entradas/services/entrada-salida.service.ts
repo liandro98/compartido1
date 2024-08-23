@@ -13,8 +13,8 @@ export class EntradaSalidaService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getEntradasSalidas(): Observable<EntradaSalida[]> {
-    return this.httpClient.get<EntradaSalida[]>(`${this.baseUrl}/entradas-salidas`)
+  getEntradasSalidas(fecha:string): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${this.baseUrl}/entradas-salidas/${fecha}`)
       .pipe(catchError(() => of([])));
   }
 
@@ -28,8 +28,8 @@ export class EntradaSalidaService {
       .pipe(catchError(() => of(undefined as any)));
   }
 
-  updateEntradaSalida(entradaSalida: EntradaSalida): Observable<EntradaSalida> {
-    return this.httpClient.put<EntradaSalida>(`${this.baseUrl}/entradas-salidas/${entradaSalida.idEntradaSalida}`, entradaSalida)
+  updateEntradaSalida(idEntradaSalida:number): Observable<EntradaSalida> {
+    return this.httpClient.put<EntradaSalida>(`${this.baseUrl}/entradas-salidas/${idEntradaSalida}`,{})
       .pipe(catchError(() => of(undefined as any)));
   }
 
