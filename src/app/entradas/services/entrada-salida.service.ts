@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { EntradaSalida } from '../interfaces/entrada-salida'; 
-import { environments } from '../../../environments/environments';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EntradaSalidaService {
-  private baseUrl: string = environments.baseUrl;
+  private baseUrl: string = environment.baseUrl;
 
   constructor(private httpClient: HttpClient) { }
 
