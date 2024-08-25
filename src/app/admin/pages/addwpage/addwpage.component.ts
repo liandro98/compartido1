@@ -127,20 +127,21 @@ export class AddwpageComponent implements OnInit {
 
   onDelete(): void {
     if (this.selectedEmployee) {
-      this.empleadosService.deleteTrabajador(this.selectedEmployee.idEmpleado!).subscribe(
-        (res) => {
-          this.snackBar.open('Empleado eliminado exitosamente.', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
-          this.resetForm();
-        },
-        (err) => {
-          console.error('Error al eliminar empleado:', err);
-          this.snackBar.open('Error al eliminar empleado.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
-        }
-      );
+        this.empleadosService.deleteTrabajador(this.selectedEmployee.idEmpleado!).subscribe(
+            (res) => {
+                this.snackBar.open('Empleado eliminado exitosamente.', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
+                this.resetForm();
+            },
+            (err) => {
+                console.error('Error al eliminar empleado:', err);
+                this.snackBar.open('Error al eliminar empleado.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
+            }
+        );
     } else {
-      this.snackBar.open('Selecciona un empleado para eliminar.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
+        this.snackBar.open('Selecciona un empleado para eliminar.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
     }
-  }
+}
+
 
   resetForm(): void {
     this.selectedEmployee = null;
@@ -163,8 +164,7 @@ export class AddwpageComponent implements OnInit {
   // Validador personalizado para solo letras y espacios
   lettersAndSpacesValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const value = control.value;
-    if (!value) return null;
-    const isValid = /^[A-Za-z\s]+$/.test(value);
+    const isValid = /^[a-zA-Z\s]+$/.test(value);
     return isValid ? null : { invalidFormat: true };
   }
 }
