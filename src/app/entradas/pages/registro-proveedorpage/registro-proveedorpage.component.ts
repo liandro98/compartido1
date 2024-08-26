@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { SupplierService } from '../../services/supplier-service.service';
 import { Supplier } from '../../interfaces/supplier'; 
-import { MatSnackBar } from '@angular/material/snack-bar'; // Importar MatSnackBar
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registro-proveedorpage',
@@ -43,34 +43,29 @@ import { MatSnackBar } from '@angular/material/snack-bar'; // Importar MatSnackB
   ]
 })
 export class RegistroProveedorpageComponent implements OnInit {
-  supplierForm!: FormGroup;
+  supplierForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private supplierService: SupplierService,
-    private snackBar: MatSnackBar // Inyectar MatSnackBar
-  ) {}
-
-  ngOnInit(): void {
-    this.createForm();
-  }
-
-  createForm(): void {
+    private snackBar: MatSnackBar
+  ) {
     this.supplierForm = this.fb.group({
-      model: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9\\s]+$')]], // Letras, números y espacios
-      plates: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+$')]], // Solo letras y números
-      companyName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]], // Solo letras y espacios
-      providerName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]], // Solo letras y espacios
+      model: ['', [Validators.required, Validators.maxLength(50), this.modelValidator]],
+      plates: ['', [Validators.required, Validators.maxLength(12), this.platesValidator]],
+      companyName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9-\\s]+$')]], // Letras, números, espacios y guiones
+      providerName: ['', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]] // Solo letras y espacios
     });
   }
-  
+
+  ngOnInit(): void {}
 
   onSubmit(): void {
     if (this.supplierForm.valid) {
       const formData: Supplier = {
         userType: 'Proveedor',
         idUsuario: '',
-        email: '',
+        email: '', // El campo 'email' no está en el formulario, considerar agregarlo si es necesario
         fullName: this.supplierForm.get('providerName')?.value,
         model: this.supplierForm.get('model')?.value,
         plates: this.supplierForm.get('plates')?.value,
@@ -81,14 +76,68 @@ export class RegistroProveedorpageComponent implements OnInit {
       this.supplierService.registerSupplier(formData).subscribe(
         response => {
           this.snackBar.open('Proveedor registrado con éxito', 'Cerrar', { panelClass: ['success-snackbar'] });
-          this.supplierForm.reset(); // Limpiar el formulario después del registro
+          this.supplierForm.reset();
         },
         error => {
           this.snackBar.open('Error al registrar proveedor', 'Cerrar', { panelClass: ['error-snackbar'] });
         }
       );
     } else {
-      this.snackBar.open('Por favor, complete todos los campos requeridos.', 'Cerrar', { panelClass: ['error-snackbar'] });
+      this.showValidationErrors();
     }
+  }
+
+  showValidationErrors(): void {
+    const errorMessages: string[] = [];
+
+    Object.keys(this.supplierForm.controls).forEach(field => {
+      const control = this.supplierForm.get(field);
+      if (control?.invalid) {
+        const errorMessage = this.getErrorMessage(field, control);
+        errorMessages.push(errorMessage);
+      }
+    });
+
+    if (errorMessages.length > 0) {
+      this.snackBar.open(errorMessages.join('\n'), 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+        verticalPosition: 'top'
+      });
+    }
+  }
+
+  getErrorMessage(field: string, control: AbstractControl): string {
+    if (control.hasError('required')) {
+      return `${this.getFieldName(field)} es requerido.`;
+    } else if (control.hasError('pattern')) {
+      return `${this.getFieldName(field)} tiene un formato inválido.`;
+    } else if (control.hasError('maxlength')) {
+      return `${this.getFieldName(field)} no puede tener más de ${control.errors!['maxlength'].requiredLength} caracteres.`;
+    } else {
+      return `Error en el campo ${this.getFieldName(field)}.`;
+    }
+  }
+
+  getFieldName(field: string): string {
+    switch (field) {
+      case 'model': return 'Modelo';
+      case 'plates': return 'Placas';
+      case 'companyName': return 'Nombre de la Empresa';
+      case 'providerName': return 'Nombre del Proveedor';
+      default: return field;
+    }
+  }
+
+  modelValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const value = control.value;
+    const isValid = /^[a-zA-Z0-9\s]+$/.test(value); // Letras, números y espacios
+    return isValid ? null : { invalidFormat: true };
+  }
+
+  platesValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const value = control.value;
+    const isValid = /^[a-zA-Z0-9-]+$/.test(value); // Letras, números y guiones
+    return isValid ? null : { invalidFormat: true };
   }
 }

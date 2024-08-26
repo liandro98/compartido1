@@ -1,4 +1,3 @@
-
 <div class="container">
   <h1 style="color: black;">Registro de Usuario</h1>
   <mat-card>
@@ -10,14 +9,22 @@
             <mat-option value="Estudiante">Estudiante</mat-option>
             <mat-option value="Profesor">Profesor</mat-option>
           </mat-select>
+          <mat-error *ngIf="vehicleForm.get('userType')?.hasError('required')">
+            Selecciona un tipo de usuario.
+          </mat-error>
         </mat-form-field>
-        
 
         <ng-container [ngSwitch]="vehicleForm.value.userType">
           <div *ngSwitchCase="'Estudiante'">
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Número de Control</mat-label>
               <input matInput formControlName="controlNumber">
+              <mat-error *ngIf="vehicleForm.get('controlNumber')?.hasError('required')">
+                El número de control es obligatorio.
+              </mat-error>
+              <mat-error *ngIf="vehicleForm.get('controlNumber')?.hasError('pattern')">
+                El número de control debe contener solo números.
+              </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Carrera</mat-label>
@@ -30,6 +37,9 @@
                 <mat-option value="mecatronica">Mecatrónica</mat-option>
                 <mat-option value="procesos">Procesos</mat-option>
               </mat-select>
+              <mat-error *ngIf="vehicleForm.get('career')?.hasError('required')">
+                La carrera es obligatoria.
+              </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Grupo</mat-label>
@@ -38,15 +48,22 @@
                   {{ groupo }}
                 </mat-option>
               </mat-select>
+              <mat-error *ngIf="vehicleForm.get('groupo')?.hasError('required')">
+                El grupo es obligatorio.
+              </mat-error>
             </mat-form-field>
-            
           </div>
-          
-          
+
           <div *ngSwitchCase="'Profesor'">
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Clave de Profesor</mat-label>
               <input matInput formControlName="controlNumber">
+              <mat-error *ngIf="vehicleForm.get('controlNumber')?.hasError('required')">
+                La clave de profesor es obligatoria.
+              </mat-error>
+              <mat-error *ngIf="vehicleForm.get('controlNumber')?.hasError('pattern')">
+                La clave de profesor debe contener solo numeros.
+              </mat-error>
             </mat-form-field>
           </div>
         </ng-container>
@@ -54,11 +71,23 @@
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Correo Electrónico</mat-label>
           <input matInput type="email" formControlName="email">
+          <mat-error *ngIf="vehicleForm.get('email')?.hasError('required')">
+            El correo electrónico es obligatorio.
+          </mat-error>
+          <mat-error *ngIf="vehicleForm.get('email')?.hasError('email')">
+            Ingresa un correo electrónico válido.
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Nombre Completo</mat-label>
           <input matInput formControlName="fullName">
+          <mat-error *ngIf="vehicleForm.get('fullName')?.hasError('required')">
+            El nombre completo es obligatorio.
+          </mat-error>
+          <mat-error *ngIf="vehicleForm.get('fullName')?.hasError('pattern')">
+            El nombre completo solo puede contener letras y espacios.
+          </mat-error>
         </mat-form-field>
 
         <div class="button-container">
@@ -68,23 +97,18 @@
       </form>
     </mat-card-content>
   </mat-card>
-  
-  
-    
-      <!-- Selector de Usuarios -->
-      <mat-card *ngIf="users.length > 0" class="user-list-card">
-<mat-form-field appearance="fill">
-  <mat-label>Seleccionar Usuario</mat-label>
-  <mat-select (selectionChange)="onWorkerSelect($event)">
-    <mat-option *ngFor="let user of users" [value]="user">
-      {{ user.Nombre }} - {{ user.CorreoElectronico }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-</mat-card>
 
-
-
+  <!-- Selector de Usuarios -->
+  <mat-card *ngIf="users.length > 0" class="user-list-card">
+    <mat-form-field appearance="fill">
+      <mat-label>Seleccionar Usuario</mat-label>
+      <mat-select (selectionChange)="onWorkerSelect($event)">
+        <mat-option *ngFor="let user of users" [value]="user">
+          {{ user.Nombre }} - {{ user.CorreoElectronico }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-card>
 
   <mat-card>
     <mat-card-content>
