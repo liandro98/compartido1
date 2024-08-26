@@ -1,12 +1,4 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-
-@Component({
-  selector: 'app-perfilpage',
-  templateUrl: './perfilpage.component.html',
-  styles: 
-  `
-  body{
+body{
     margin: 10px;
     align-items: center;
     display: flex;
@@ -47,23 +39,4 @@ import { Router } from '@angular/router';
     font-size: 1rem;
     font-weight: bold;
     width: 100%;
-}
-  `
-})
-export class PerfilpageComponent {
-
-  persona = {
-    name: "Juan",
-    image: "https://cdn.pixabay.com/photo/2017/02/23/13/05/avatar-2092113_1280.png",
-    correo: "juanvanessa@gmail.com",
-    telefono: "41181105645",
-    genero: "mujer",
-    pais: "Mexico"
-  };
-
-  constructor(private router: Router) {}
-
-  navigateToRecovery() {
-    this.router.navigate(['admin/changeP']);
-  }
 }
