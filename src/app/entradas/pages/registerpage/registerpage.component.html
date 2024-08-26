@@ -104,7 +104,7 @@
       <mat-label>Seleccionar Usuario</mat-label>
       <mat-select (selectionChange)="onWorkerSelect($event)">
         <mat-option *ngFor="let user of users" [value]="user">
-          {{ user.Nombre }} - {{ user.CorreoElectronico }}
+          {{ user.Nombre }} - {{ user.CorreoElectronico }} - {{user.codigo}}
         </mat-option>
       </mat-select>
     </mat-form-field>

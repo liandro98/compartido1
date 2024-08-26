@@ -31,10 +31,10 @@ export class UserService {
     return this.http.get<Usuario[]>(this.apiUrl + '/search', { params: query });
   }
 
-  getAllUsers(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.apiUrl + '/all');
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/all`);
   }
-
+  
   searchUserByBarcode(barcode: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/barcode/${barcode}`,);
   }
