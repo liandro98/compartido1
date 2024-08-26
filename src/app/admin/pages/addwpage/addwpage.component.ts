@@ -37,7 +37,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AddwpageComponent implements OnInit {
   workerForm: FormGroup;
   selectedEmployee: Empleado | null = null;
-  workers: Empleado[] = []; // Lista de trabajadores
+  workers: Empleado[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -45,17 +45,17 @@ export class AddwpageComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.workerForm = this.fb.group({
-      employeeId: [''], // Clave del trabajador
-      fullName: ['', [Validators.required, this.lettersAndSpacesValidator]], // Nombre completo
-      email: ['', [Validators.required, Validators.email]], // Correo electrónico
-      Contrasena: ['', [Validators.required, Validators.minLength(8), this.passwordValidator]], // Contraseña
-      department: ['', [Validators.required, this.lettersAndSpacesValidator]], // Departamento
-      position: ['', [Validators.required, this.lettersAndSpacesValidator]] // Puesto
+      employeeId: [''],
+      fullName: ['', [Validators.required, this.lettersAndSpacesValidator]],
+      email: ['', [Validators.required, Validators.email]],
+      Contrasena: ['', [Validators.required, Validators.minLength(8), this.passwordValidator]],
+      department: ['', [Validators.required, this.lettersAndSpacesValidator]],
+      position: ['', [Validators.required, this.lettersAndSpacesValidator]]
     });
   }
 
   ngOnInit(): void {
-    this.getWorkers(); // Cargar los trabajadores al iniciar el componente
+    this.getWorkers();
   }
 
   getWorkers(): void {
@@ -94,7 +94,7 @@ export class AddwpageComponent implements OnInit {
         Cargo: formValue.position,
         idUsuario: 0
       };
-
+  
       if (this.selectedEmployee) {
         // Actualizar empleado existente
         this.empleadosService.updateTrabajador(this.selectedEmployee.idEmpleado!, empleado).subscribe(
@@ -121,27 +121,75 @@ export class AddwpageComponent implements OnInit {
         );
       }
     } else {
-      this.snackBar.open('Por favor completa el formulario correctamente.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
+      this.showValidationErrors();
     }
   }
+  
+  showValidationErrors(): void {
+    const errorMessages: string[] = [];
+  
+    Object.keys(this.workerForm.controls).forEach(field => {
+      const control = this.workerForm.get(field);
+      if (control?.invalid) {
+        const errorMessage = this.getErrorMessage(field, control);
+        errorMessages.push(errorMessage);
+      }
+    });
+  
+    if (errorMessages.length > 0) {
+      this.snackBar.open(errorMessages.join('\n'), 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+        verticalPosition: 'top'
+      });
+    }
+  }
+  
+  getErrorMessage(field: string, control: AbstractControl): string {
+    if (control.hasError('required')) {
+      return `${this.getFieldName(field)} es requerido.`;
+    } else if (control.hasError('email')) {
+      return 'El correo electrónico debe ser válido.';
+    } else if (control.hasError('minlength')) {
+      return `La contraseña debe tener al menos ${control.errors!['minlength'].requiredLength} caracteres.`;
+    } else if (control.hasError('weakPassword')) {
+      return 'La contraseña debe tener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.';
+    } else if (control.hasError('invalidFormat')) {
+      return `${this.getFieldName(field)} solo permite letras y espacios.`;
+    } else {
+      return `Error desconocido en el campo ${this.getFieldName(field)}.`;
+    } 
+  }
+  
+  getFieldName(field: string): string {
+    switch (field) {
+      case 'employeeId': return 'Clave del Trabajador';
+      case 'fullName': return 'Nombre Completo';
+      case 'email': return 'Correo Electrónico';
+      case 'Contrasena': return 'Contraseña';
+      case 'department': return 'Departamento';
+      case 'position': return 'Puesto';
+      default: return field;
+    }
+  }
+  
 
   onDelete(): void {
     if (this.selectedEmployee) {
-        this.empleadosService.deleteTrabajador(this.selectedEmployee.idEmpleado!).subscribe(
-            (res) => {
-                this.snackBar.open('Empleado eliminado exitosamente.', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
-                this.resetForm();
-            },
-            (err) => {
-                console.error('Error al eliminar empleado:', err);
-                this.snackBar.open('Error al eliminar empleado.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
-            }
-        );
+      this.empleadosService.deleteTrabajador(this.selectedEmployee.idEmpleado!).subscribe(
+        (res) => {
+          this.snackBar.open('Empleado eliminado exitosamente.', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
+          this.resetForm();
+        },
+        (err) => {
+          console.error('Error al eliminar empleado:', err);
+          this.snackBar.open('Error al eliminar empleado.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
+        }
+      );
     } else {
-        this.snackBar.open('Selecciona un empleado para eliminar.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
+      this.snackBar.open('Selecciona un empleado para eliminar.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
     }
-}
-
+  }
 
   resetForm(): void {
     this.selectedEmployee = null;
@@ -149,7 +197,6 @@ export class AddwpageComponent implements OnInit {
     this.getWorkers();
   }
 
-  // Validador personalizado para contraseñas
   passwordValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const password = control.value;
     if (!password) return null;
@@ -161,7 +208,6 @@ export class AddwpageComponent implements OnInit {
     return isValid ? null : { weakPassword: true };
   }
 
-  // Validador personalizado para solo letras y espacios
   lettersAndSpacesValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const value = control.value;
     const isValid = /^[a-zA-Z\s]+$/.test(value);

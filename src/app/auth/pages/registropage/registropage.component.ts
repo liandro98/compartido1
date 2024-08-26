@@ -2,18 +2,18 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../entradas/services/usuario.service';
-import { Log } from '../../../entradas/interfaces/log'; // Asegúrate de que la ruta sea correcta
+import { Log } from '../../../entradas/interfaces/log';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registropage',
   templateUrl: './registropage.component.html',
-  styles: `` 
+  styles: [``]
 })
 export class RegistropageComponent {
 
   logForm: FormGroup;
-  showLoginForm = false; 
+  showLoginForm = false;
 
   constructor(
     private fb: FormBuilder,
@@ -37,8 +37,7 @@ export class RegistropageComponent {
 
   entrar() {
     if (this.logForm.invalid) {
-      // Manejo de errores de formulario
-      this.snackBar.open('Por favor, complete todos los campos correctamente.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
+      this.showValidationErrors();
       return;
     }
 
@@ -49,20 +48,19 @@ export class RegistropageComponent {
         console.log(res);
         sessionStorage.setItem('user', JSON.stringify(res['user']));
         if (res.TipoUsuario === 'Administrador') {
-          this.router.navigate(['/admin/registro']); // Redirige al dashboard del administrador
+          this.router.navigate(['/admin/registro']);
           this.snackBar.open('Bienvenido Administrador!', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
         } else if (res.TipoUsuario === 'Empleado') {
-          this.router.navigate(['/entradas/list']); // Redirige al dashboard del empleado
+          this.router.navigate(['/entradas/list']);
           this.snackBar.open('Bienvenido Empleado!', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
         } else {
-          // Manejo de otros tipos de usuarios si aplica
           this.router.navigate(['/entradas/perfil']);
           this.snackBar.open('Bienvenido Usuario!', 'Cerrar', { duration: 3000, panelClass: ['success-snackbar'] });
         }
       },
       (error) => {
         console.error('Error al iniciar sesión:', error);
-        this.snackBar.open('Error en el inicio de sesión. Por favor, intente nuevamente.', 'Cerrar', { duration: 3000, panelClass: ['error-snackbar'] });
+        this.handleLoginError(error);
       }
     );
   }
@@ -72,7 +70,69 @@ export class RegistropageComponent {
   }
 
   onSubmit() {
-    console.log('Iniciar sesión con', this.logForm.value.email);
     this.entrar();
+  }
+
+  showValidationErrors(): void {
+    const emailControl = this.logForm.get('email');
+    const passwordControl = this.logForm.get('password');
+    const errorMessages: string[] = [];
+
+    if (emailControl?.invalid) {
+      if (emailControl.hasError('required')) {
+        errorMessages.push('El correo electrónico es requerido.');
+      } else if (emailControl.hasError('email')) {
+        errorMessages.push('El correo electrónico debe ser válido.');
+      }
+    }
+
+    if (passwordControl?.invalid) {
+      if (passwordControl.hasError('required')) {
+        errorMessages.push('La contraseña es requerida.');
+      }
+    }
+
+    if (errorMessages.length > 0) {
+      this.snackBar.open(errorMessages.join(' '), 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      });
+    }
+  }
+
+  handleLoginError(error: any): void {
+    if (error.status === 401) { // Suponiendo que 401 es para errores de autenticación
+      if (error.error === 'email') {
+        this.snackBar.open('Correo electrónico incorrecto.', 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar'],
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+        });
+      } else if (error.error === 'password') {
+        this.snackBar.open('Contraseña incorrecta.', 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar'],
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+        });
+      } else {
+        this.snackBar.open('Error en el inicio de sesión. Por favor, intente nuevamente.', 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar'],
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+        });
+      }
+    } else {
+      this.snackBar.open('Error en el inicio de sesión. Por favor, intente nuevamente.', 'Cerrar', {
+        duration: 5000,
+        panelClass: ['error-snackbar'],
+        verticalPosition: 'top',
+        horizontalPosition: 'center'
+      });
+    }
   }
 }
