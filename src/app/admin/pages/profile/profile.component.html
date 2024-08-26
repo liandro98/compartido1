@@ -6,22 +6,22 @@
             </mat-card-header>
             <mat-card-content>
                 <mat-card class="card-into">
-                    <img width="20%" [src]="persona.image" alt="">
+                    <img width="20%" src="" alt="">
                     <div>
-                        <h1>{{persona.name}}</h1>
+                        <h1>{{usuario.TipoUsuario}}</h1>
                         <br/>
                     </div>
                     <div>
                         <div class="data">
-                            <span class="span-label">Email: </span><label>{{persona.correo}}</label>
+                            <span class="span-label">Email: </span><label>{{usuario.user}}</label>
                         </div>
                         <br>
                         <div class="data">
-                            <span class="span-label">Telefono: </span><label>{{persona.telefono}}</label>
+                            <span class="span-label">Nombre: </span><label>{{usuario.nombre}}</label>
                             <br>
                         </div>
                         <br/>
-                        <div class="data">
+                        <!-- <div class="data">
                             <span class="span-label">Sexo: </span><label>{{persona.genero}}</label>
                             <br>
                         </div>
@@ -29,6 +29,13 @@
                         <div class="data">
                             <span class="span-label">Pais: </span><label>{{persona.pais}}</label>
                             <br>
+                        </div> -->
+                        <div class="data">
+                            <span class="span-label">
+                              <label>Codigo de barras</label>
+                              <!-- Elemento SVG para el código de barras -->
+                              <svg #barcode></svg>
+                            </span>
                         </div>
                     </div>
                     <br>
