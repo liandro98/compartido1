@@ -3,7 +3,15 @@
   <button mat-raised-button class="overlay-button" (click)="showLoginForm = !showLoginForm">
     Iniciar Sesión
   </button>
-  <button>Como llegar</button>
+  <button mat-raised-button class="overlay-button"  [routerLink]="['/auth/home']">
+    Inicio
+  </button>
+  <button mat-raised-button class="overlay-button" [routerLink]="['/auth/manual']"> 
+    Manual
+  </button>
+  <button mat-raised-button class="overlay-button">
+    Pagos
+  </button>
 </div>
 
 <!-- Formulario de inicio de sesión -->
@@ -47,6 +55,10 @@
     <h1>¡Bienvenido al Estacionamiento UTNG!</h1>
   </div>
 </div>
+<div class="cont-mapa">
+    <h2><strong>Encuentranos en:</strong></h2>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+</div>
 
 <style>
   /* General body styles */
@@ -59,22 +71,34 @@
     width: 100vw;
   }
 
-  /* Container for the login overlay */
+  /* Contenedor de botones estilo menú */
   .overlay-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100%; /* Ocupa todo el ancho */
+    height: 60px; /* Altura fija del menú */
+    display: flex;
+    justify-content: space-around; /* Espaciado uniforme entre botones */
+    align-items: center; /* Centra los botones verticalmente */
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo con transparencia */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra inferior */
     z-index: 101;
   }
 
-  /* Button to show/hide login form */
+  /* Botones del menú */
   .overlay-button {
-    position: absolute;
-    top: 10px;
-    left: 3vw;
-    z-index: 102;
+    padding: 10px 20px;
     background-color: aquamarine;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .overlay-button:hover {
+    background-color: #78e8d5; /* Color más oscuro al pasar el mouse */
   }
 
   /* Overlay background when login form is visible */

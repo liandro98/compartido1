@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuario } from '../interfaces/usuario';
 
@@ -41,5 +41,20 @@ export class UserService {
 
   changePassword(email: string, oldPassword: string, newPassword: string): Observable<any> {
     return this.http.put<any>(this.apiUrl+'/change-password', { email, oldPassword, newPassword });
+  }
+
+  // API de  You Tube
+  private apiUrlY = 'https://www.googleapis.com/youtube/v3/search'; // URL base de la API de YouTube
+  private apiKey = 'YOAIzaSyDZLwhZ402neFFxvznssADVcMH5-DmubN8'; // Sustituye por tu propia clave API
+
+  // Método para obtener videos de YouTube
+  getVideos(query: string): Observable<any> {
+    const params = new HttpParams()
+      .set('q', query)
+      .set('key', this.apiKey)
+      .set('part', 'snippet')
+      .set('maxResults', '5');  // Puedes modificar el número de resultados
+
+    return this.http.get<any>(this.apiUrl, { params });
   }
 }

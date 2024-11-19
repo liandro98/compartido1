@@ -5,6 +5,8 @@ import { RegistropageComponent } from './pages/registropage/registropage.compone
 import { PasswordRecoverypageComponent } from './pages/password-recoverypage/password-recoverypage.component';
 import { CodeVerificationpageComponent } from './pages/code-verificationpage/code-verificationpage.component';
 import { ThankYoupageComponent } from './pages/thank-youpage/thank-youpage.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ManualComponent } from './pages/manual/manual.component';
 
 const routes: Routes = [
     {
@@ -15,7 +17,9 @@ const routes: Routes = [
             {path:'recovery', component:PasswordRecoverypageComponent},
             {path:'verification', component:CodeVerificationpageComponent},
             {path:'thanku', component:ThankYoupageComponent},
-            {path:'**',redirectTo:'registro'}
+            {path:'home', component:HomeComponent},
+            {path:'manual', component:ManualComponent},
+            {path:'**',redirectTo:'home'}
         ]
     }
 ];

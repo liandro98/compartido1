@@ -9,6 +9,8 @@ import { EntradasModule } from '../entradas/entradas.module';
 import { PasswordRecoverypageComponent } from './pages/password-recoverypage/password-recoverypage.component';
 import { CodeVerificationpageComponent } from './pages/code-verificationpage/code-verificationpage.component';
 import { ThankYoupageComponent } from './pages/thank-youpage/thank-youpage.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ManualComponent } from './pages/manual/manual.component';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { ThankYoupageComponent } from './pages/thank-youpage/thank-youpage.compo
     RegistropageComponent,
     PasswordRecoverypageComponent,
     CodeVerificationpageComponent,
-    ThankYoupageComponent
+    ThankYoupageComponent,
+    HomeComponent,
+    ManualComponent
   ],
   imports: [
     CommonModule,
