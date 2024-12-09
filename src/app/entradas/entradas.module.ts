@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { HelpComponent } from './pages/help/help.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegistroProveedorpageComponent } from './pages/registro-proveedorpage/registro-proveedorpage.component';
+import { CobranzaComponent } from './pages/cobranza/cobranza.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { RegistroProveedorpageComponent } from './pages/registro-proveedorpage/r
     VehiclepageComponent,
     HelpComponent,
     ProfileComponent,
-    RegistroProveedorpageComponent
+    RegistroProveedorpageComponent,
+    CobranzaComponent
   ],
   imports: [
     CommonModule,
