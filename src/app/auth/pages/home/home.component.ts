@@ -5,6 +5,7 @@ import { UserService } from '../../../entradas/services/usuario.service';
 import { Log } from '../../../entradas/interfaces/log';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as L from 'leaflet';
+import 'leaflet-routing-machine';
 
 @Component({
   selector: 'app-home',
@@ -137,28 +138,75 @@ export class HomeComponent {
   }
 
   private map: L.Map | undefined;
+  private currentMaker?: L.Marker
+  private markers: L.Marker[] = [];
 
   ngOnInit(): void {
     this.initMap();
-    //this.locateUser()
+    this.locateUser()
   }
 
   // Api de Geolocalizacion
   private initMap(): void {
     // Configura el mapa
-    this.map = L.map('map').setView([21.167399, -100.930821], 14); // Coordenadas iniciales
+    this.map = L.map('map').setView([21.167399, -100.930821], 14); 
 
-    // Agrega los mosaicos del mapa (en este caso OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', // Atribucion a OpenStreetMaps
       maxZoom: 18
     }).addTo(this.map);
 
-    // Agrega un marcador
-    L.marker([21.167399, -100.930821])
-      .addTo(this.map)
-      .bindPopup('Hola estamos aqui!!')
-      .openPopup();
+    // Agrega marcadores
+    this.markers = [
+      L.marker([21.169999, -100.930000]).bindPopup('Estacionamiento 1').addTo(this.map).openPopup(),
+      L.marker([21.165000, -100.935000]).bindPopup('Estacionamiento 1').addTo(this.map).openPopup(),
+      L.marker([21.170000, -100.940000]).bindPopup('Estacionamiento 1').addTo(this.map).openPopup()
+    ];
+  }
+
+  private locateUser(): void {
+    if (!this.map) return;
+
+    // Obteniendo ubicacion actual con l API
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const {latitude, longitude} = position.coords;
+        const currentLocation = [latitude, longitude] as [number, number];  
+
+        // Agrega un marcador de la posicion actual
+        this.currentMaker = L.marker(currentLocation).addTo(this.map!).bindPopup('Usted se encuentra aqui').openPopup();
+
+        // Ajuste en la vista para incluir la posicion
+        this.map?.setView(currentLocation);
+
+        // Cacular la de la ruta actual a los marcadores
+        this.calculateRoute(currentLocation);
+      },(error) => { // Manejo de errores
+        window.alert('Ocurrio un error al obtener tu posicion, considera activar la ubicacion actual')
+        console.log('Error al obtener posicion del usuario: ', error)
+      }
+    )
+  }
+
+  private calculateRoute(currentLocation: [number, number]): void {
+    if(!this.map) return;
+
+    // Leaflet Ruting Machine en uso
+    const waypoints = [L.latLng(...currentLocation), ...this.markers.map(maker => maker.getLatLng())]
+
+    const routingControl = L.Routing.control({
+      waypoints,
+      routeWhileDragging: true,
+      show: false, // Oculta el recuadro de direcciones
+    });
+
+    routingControl.addTo(this.map);
+
+    // Oculta el panel de instrucciones (si se agrega por defecto)
+    const container = routingControl.getContainer();
+    if (container) {
+      container.style.display = 'none';
+    }
   }
 
   // Limpia el mapa al destruir el componente
@@ -168,27 +216,5 @@ export class HomeComponent {
     }
   }
 
-  // Unbicar usario en el mapa en mantenimiento
-  /*
-  private locateUser(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const coords: L.LatLngTuple = [position.coords.latitude, position.coords.longitude]; // Asegura que es un LatLngTuple
-          this.map?.setView(coords, 14); // Centra el mapa en la ubicación del usuario
-  
-          L.marker(coords) // Usa coords aquí sin problemas
-            .addTo(this.map!)
-            .bindPopup('¡Estás aquí!')
-            .openPopup();
-        },
-        (error) => {
-          console.error('Error obteniendo ubicación:', error);
-        }
-      );
-    } else {
-      console.error('Geolocalización no soportada en este navegador.');
-    }
-  }
-  */
+ 
 }
