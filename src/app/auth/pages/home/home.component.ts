@@ -149,7 +149,7 @@ export class HomeComponent {
   // Api de Geolocalizacion
   private initMap(): void {
     // Configura el mapa
-    this.map = L.map('map').setView([21.167399, -100.930821], 14); 
+    this.map = L.map('map',{closePopupOnClick: false }).setView([21.167399, -100.930821], 14); 
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', // Atribucion a OpenStreetMaps
@@ -158,9 +158,9 @@ export class HomeComponent {
 
     // Agrega marcadores
     this.markers = [
-      L.marker([21.169999, -100.930000]).bindPopup('Estacionamiento 1').addTo(this.map).openPopup(),
-      L.marker([21.165000, -100.935000]).bindPopup('Estacionamiento 1').addTo(this.map).openPopup(),
-      L.marker([21.170000, -100.940000]).bindPopup('Estacionamiento 1').addTo(this.map).openPopup()
+      L.marker([21.169999, -100.930000]).bindPopup('Estacionamiento 1', { autoClose: false }).addTo(this.map).openPopup(),
+      L.marker([21.165000, -100.935000]).bindPopup('Estacionamiento 1', { autoClose: false }).addTo(this.map).openPopup(),
+      L.marker([21.170000, -100.940000]).bindPopup('Estacionamiento 1', { autoClose: false }).addTo(this.map).openPopup()
     ];
   }
 
@@ -174,7 +174,7 @@ export class HomeComponent {
         const currentLocation = [latitude, longitude] as [number, number];  
 
         // Agrega un marcador de la posicion actual
-        this.currentMaker = L.marker(currentLocation).addTo(this.map!).bindPopup('Usted se encuentra aqui').openPopup();
+        this.currentMaker = L.marker(currentLocation).addTo(this.map!).bindPopup('Usted se encuentra aqui', { autoClose: false }).openPopup();
 
         // Ajuste en la vista para incluir la posicion
         this.map?.setView(currentLocation);
@@ -189,25 +189,41 @@ export class HomeComponent {
   }
 
   private calculateRoute(currentLocation: [number, number]): void {
-    if(!this.map) return;
-
-    // Leaflet Ruting Machine en uso
-    const waypoints = [L.latLng(...currentLocation), ...this.markers.map(maker => maker.getLatLng())]
-
-    const routingControl = L.Routing.control({
-      waypoints,
-      routeWhileDragging: true,
-      show: false, // Oculta el recuadro de direcciones
+    if (!this.map || this.markers.length === 0) return;
+  
+    // Encuentra el marcador más cercano
+    let closestMarker: L.Marker | undefined;
+    let minDistance = Infinity;
+  
+    this.markers.forEach(marker => {
+      const distance = this.map?.distance(currentLocation, marker.getLatLng()); // Calcula la distancia
+      if (distance !== undefined && distance < minDistance) {
+        minDistance = distance;
+        closestMarker = marker;
+      }
     });
-
+  
+    if (!closestMarker) return;
+  
+    // Configura la ruta hacia el marcador más cercano
+    const routingControl = L.Routing.control({
+      waypoints: [
+        L.latLng(...currentLocation),
+        closestMarker.getLatLng()
+      ],
+      routeWhileDragging: true,
+      show: false, // Oculta el control de instrucciones
+    });
+  
     routingControl.addTo(this.map);
-
-    // Oculta el panel de instrucciones (si se agrega por defecto)
+  
+    // Opcional: Oculta el panel de instrucciones si aparece
     const container = routingControl.getContainer();
     if (container) {
       container.style.display = 'none';
     }
   }
+  
 
   // Limpia el mapa al destruir el componente
   ngOnDestroy(): void {
